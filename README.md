@@ -12,11 +12,7 @@ Set the PORT number (on MacOS/Linux):
 
     export PORT=3000
 
-To start the microservice:
-
-    node index.js
-
-Or 
+To start the microservice (production mode):
 
     npm start
 
