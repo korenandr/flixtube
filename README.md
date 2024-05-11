@@ -2,18 +2,18 @@ Creating a project step by step from [Bootstrapping Microservices](https://www.b
 
 # How to run
 
-You need Node.js installed to run this.
+You need docker installed to run this.
 
-Before running install dependencies:
+Before running build image (production mode):
 
-    npm install
+    docker build -t video-streaming .
 
-Set the PORT number (on MacOS/Linux):
+To start the microservice:
 
-    export PORT=3000
-
-To start the microservice (production mode):
-
-    npm start
+    docker run -d --rm -p 3000:3000 -e PORT=3000 video-streaming
 
 Then point your browser at http://localhost:3000/video
+
+To stop the microservice:
+
+    docker stop <container id>
