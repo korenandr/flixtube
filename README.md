@@ -2,18 +2,14 @@ Creating a project step by step from [Bootstrapping Microservices](https://www.b
 
 # How to run
 
-You need docker installed to run this.
+You need Docker and Docker-Compose installed to run this.
 
-Before running build image (production mode):
+Boot it up from the terminal using:
 
-    docker build -t video-streaming .
+    docker-compose up --build
 
-To start the microservice:
-
-    docker run -d --rm -p 3000:3000 -e PORT=3000 video-streaming
-
-Then point your browser at http://localhost:3000/video
+Then point your browser at http://localhost:4000/video
 
 To stop the microservice:
 
-    docker stop <container id>
+    docker-compose down
