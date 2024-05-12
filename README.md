@@ -1,5 +1,3 @@
-Creating a project step by step from [Bootstrapping Microservices](https://www.bootstrapping-microservices.com) book.
-
 # How to run
 
 You need Docker and Docker-Compose installed to run this.
