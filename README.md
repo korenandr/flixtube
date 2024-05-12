@@ -16,7 +16,7 @@ Boot it up from the terminal using:
     docker compose up --build
 
 Add sample from db-fixture into your mongodb container
-Then point your browser at http://localhost:4000/video
+Then point your browser at http://localhost:4000/video?id=5d9e690ad76fe06a3d7ae416
 
 To stop the microservices:
 
