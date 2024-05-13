@@ -1,0 +1,53 @@
+version: '3'
+services:
+
+  history:
+    image: history
+    build: 
+      context: ./history
+      dockerfile: Dockerfile-prod
+    container_name: history
+    ports:
+     - "4003:80"
+    environment:
+      - PORT=80
+    restart: "no"
+
+  db:
+    image: mongo:7.0.0
+    container_name: db
+    ports:
+     - "4002:27017"
+    restart: always
+
+  aws-storage:
+    image: aws-storage
+    build: 
+      context: ./aws-storage
+      dockerfile: Dockerfile-prod
+    container_name: video-storage
+    ports:
+     - "4001:80"
+    environment:
+      - PORT=80
+      - STORAGE_BUCKET_NAME=${STORAGE_BUCKET_NAME}
+      - STORAGE_REGION_NAME=${STORAGE_REGION_NAME}
+      - STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID}
+      - STORAGE_SECRET_ACCESS_KEY=${STORAGE_SECRET_ACCESS_KEY}
+    restart: "no"
+
+  video-streaming:
+    image: video-streaming
+    build: 
+      context: ./video-streaming
+      dockerfile: Dockerfile-prod
+    container_name: video-streaming
+    ports:
+     - "4000:80"
+    environment:
+      - PORT=80
+      - DBHOST=mongodb://db:27017
+      - DBNAME=video-streaming
+      - VIDEO_STORAGE_HOST=video-storage
+      - VIDEO_STORAGE_PORT=80
+    restart: "no"
