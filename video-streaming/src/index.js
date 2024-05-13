@@ -45,14 +45,14 @@ const DBNAME = process.env.DBNAME;
 console.log(`Forwarding video requests to ${VIDEO_STORAGE_HOST}:${VIDEO_STORAGE_PORT}.`);
 
 //
-// Send the "viewed" to the history microservice.
+// Broadcasts the "viewed" message to other microservices.
 //
-function sendViewedMessage(messageChannel, videoPath) {
-    console.log(`Publishing message on "viewed" queue.`);
-
+function broadcastViewedMessage(messageChannel, videoPath) {
+    console.log(`Publishing message on "viewed" exchange.`);
+        
     const msg = { videoPath: videoPath };
     const jsonMsg = JSON.stringify(msg);
-    messageChannel.publish("", "viewed", Buffer.from(jsonMsg)); // Publishes message to the "viewed" queue.
+    messageChannel.publish("viewed", "", Buffer.from(jsonMsg)); // Publishes message to the "viewed" exchange.
 }
 
 //
@@ -61,12 +61,13 @@ function sendViewedMessage(messageChannel, videoPath) {
 async function main() {
 
     console.log(`Connecting to RabbitMQ server at ${RABBIT}.`);
-    const messagingConnection = await amqp.connect(RABBIT); // Connects to the RabbitMQ server.
+    const messagingConnection = await amqp.connect(RABBIT);
 
     console.log("Connected to RabbitMQ.");
-    const messageChannel = await messagingConnection.createChannel(); // Creates a RabbitMQ messaging channel.
+    const messageChannel = await messagingConnection.createChannel();
+    await messageChannel.assertExchange("viewed", "fanout");
 
-    const client = await mongodb.MongoClient.connect(DBHOST); // Connects to the database.
+    const client = await mongodb.MongoClient.connect(DBHOST);
     const db = client.db(DBNAME);
     const videosCollection = db.collection("videos");
     
@@ -76,7 +77,6 @@ async function main() {
         const videoId = new mongodb.ObjectId(req.query.id);
         const videoRecord = await videosCollection.findOne({ _id: videoId });
         if (!videoRecord) {
-            // The video was not found.
             console.log(`File with id ${videoId} not found.`);
             res.sendStatus(404);
             return;
@@ -100,7 +100,7 @@ async function main() {
         
         req.pipe(forwardRequest);
 
-        sendViewedMessage(messageChannel, videoRecord.videoPath);
+        broadcastViewedMessage(messageChannel, videoRecord.videoPath);
     });
 
     //

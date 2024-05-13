@@ -49,7 +49,7 @@ async function main() {
     // Gets the collection for storing video viewing history.
     //
     const historyCollection = db.collection("history");
-
+    
     //
     // Connects to the RabbitMQ server.
     //
@@ -61,18 +61,28 @@ async function main() {
     // Creates a RabbitMQ messaging channel.
     //
     const messageChannel = await messagingConnection.createChannel(); 
-       
-    //
-    // Asserts that we have a "viewed" queue.
-    //
-	await messageChannel.assertQueue("viewed", {}) 
 
-    console.log(`Created "viewed" queue.`);
+    //
+    // Asserts that we have a "viewed" exchange.
+    //
+    await messageChannel.assertExchange("viewed", "fanout"); 
+
+	//
+	// Creates an anonyous queue.
+	//
+	const { queue } = await messageChannel.assertQueue("", { exclusive: true }); 
+
+    console.log(`Created queue ${queue}, binding it to "viewed" exchange.`);
     
     //
-    // Start receiving messages from the "viewed" queue.
+    // Binds the queue to the exchange.
     //
-    await messageChannel.consume("viewed", async (msg) => {
+    await messageChannel.bindQueue(queue, "viewed", ""); 
+
+    //
+    // Start receiving messages from the anonymous queue.
+    //
+    await messageChannel.consume(queue, async (msg)=> {
         console.log("Received a 'viewed' message");
 
         const parsedMsg = JSON.parse(msg.content.toString()); // Parse the JSON message.
