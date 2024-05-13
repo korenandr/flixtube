@@ -28,12 +28,16 @@ services:
     image: aws-storage
     build: 
       context: ./aws-storage
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
     container_name: video-storage
+    volumes:
+      - /tmp/aws-storage/npm-cache:/root/.npm:z
+      - ./aws-storage/src:/usr/src/app/src:z
     ports:
      - "4001:80"
     environment:
       - PORT=80
+      - NODE_ENV=development
       - STORAGE_BUCKET_NAME=${STORAGE_BUCKET_NAME}
       - STORAGE_REGION_NAME=${STORAGE_REGION_NAME}
       - STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID}
@@ -44,12 +48,17 @@ services:
     image: video-streaming
     build: 
       context: ./video-streaming
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
     container_name: video-streaming
+    volumes:
+      - /tmp/video-streaming/npm-cache:/root/.npm:z
+      - ./video-streaming/src:/usr/src/app/src:z
+      - ./video-streaming/videos:/usr/src/app/videos:z
     ports:
      - "4000:80"
     environment:
       - PORT=80
+      - NODE_ENV=development
       - DBHOST=mongodb://db:27017
       - DBNAME=video-streaming
       - VIDEO_STORAGE_HOST=video-storage
