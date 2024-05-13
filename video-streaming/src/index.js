@@ -1,6 +1,7 @@
 const express = require("express");
 const http = require("http");
 const mongodb = require("mongodb");
+const amqp = require('amqplib');
 
 //
 // Throws an error if the any required environment variables are missing.
@@ -8,6 +9,10 @@ const mongodb = require("mongodb");
 
 if (!process.env.PORT) {
     throw new Error("Please specify the port number for the HTTP server with the environment variable PORT.");
+}
+
+if (!process.env.RABBIT) {
+    throw new Error("Please specify the name of the RabbitMQ host using environment variable RABBIT");
 }
 
 if (!process.env.VIDEO_STORAGE_HOST) {
@@ -31,6 +36,7 @@ if (!process.env.DBNAME) {
 //
 
 const PORT = process.env.PORT;
+const RABBIT = process.env.RABBIT;
 const VIDEO_STORAGE_HOST = process.env.VIDEO_STORAGE_HOST;
 const VIDEO_STORAGE_PORT = parseInt(process.env.VIDEO_STORAGE_PORT);
 const DBHOST = process.env.DBHOST;
@@ -41,40 +47,25 @@ console.log(`Forwarding video requests to ${VIDEO_STORAGE_HOST}:${VIDEO_STORAGE_
 //
 // Send the "viewed" to the history microservice.
 //
-function sendViewedMessage(videoPath) {
-    const postOptions = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    };
+function sendViewedMessage(messageChannel, videoPath) {
+    console.log(`Publishing message on "viewed" queue.`);
 
-    const requestBody = {
-        videoPath: videoPath 
-    };
-
-    const req = http.request(
-        "http://history/viewed",
-        postOptions
-    );
-
-    req.on("close", () => {
-        console.log("Sent 'viewed' message to history microservice.");
-    });
-
-    req.on("error", (err) => {
-        console.error("Failed to send 'viewed' message!");
-        console.error(err && err.stack || err);
-    });
-
-    req.write(JSON.stringify(requestBody));
-    req.end();
+    const msg = { videoPath: videoPath };
+    const jsonMsg = JSON.stringify(msg);
+    messageChannel.publish("", "viewed", Buffer.from(jsonMsg)); // Publishes message to the "viewed" queue.
 }
 
 //
 // Application entry point.
 //
 async function main() {
+
+    console.log(`Connecting to RabbitMQ server at ${RABBIT}.`);
+    const messagingConnection = await amqp.connect(RABBIT); // Connects to the RabbitMQ server.
+
+    console.log("Connected to RabbitMQ.");
+    const messageChannel = await messagingConnection.createChannel(); // Creates a RabbitMQ messaging channel.
+
     const client = await mongodb.MongoClient.connect(DBHOST); // Connects to the database.
     const db = client.db(DBNAME);
     const videosCollection = db.collection("videos");
@@ -97,7 +88,7 @@ async function main() {
             {
                 host: VIDEO_STORAGE_HOST,
                 port: VIDEO_STORAGE_PORT,
-                path:`/video?path=${videoRecord.videoPath}`, // Video path now retrieved from the database.
+                path:`/video?path=${videoRecord.videoPath}`,
                 method: 'GET',
                 headers: req.headers
             }, 
@@ -109,7 +100,7 @@ async function main() {
         
         req.pipe(forwardRequest);
 
-        sendViewedMessage(videoRecord.videoPath);
+        sendViewedMessage(messageChannel, videoRecord.videoPath);
     });
 
     //

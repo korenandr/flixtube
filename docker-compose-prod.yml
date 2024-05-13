@@ -11,9 +11,18 @@ services:
      - "4003:80"
     environment:
       - PORT=80
+      - RABBIT=amqp://guest:guest@rabbit:5672
       - DBHOST=mongodb://db:27017
       - DBNAME=history
     restart: "no"
+
+  rabbit:
+    image: rabbitmq:3.12.4-management
+    container_name: rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
 
   db:
     image: mongo:7.0.0
@@ -48,6 +57,7 @@ services:
      - "4000:80"
     environment:
       - PORT=80
+      - RABBIT=amqp://guest:guest@rabbit:5672
       - DBHOST=mongodb://db:27017
       - DBNAME=video-streaming
       - VIDEO_STORAGE_HOST=video-storage
