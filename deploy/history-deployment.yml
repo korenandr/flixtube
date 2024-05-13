@@ -15,8 +15,7 @@ spec:
     spec:
       containers: 
       - name: history
-        image: history:1
-        imagePullPolicy: Never
+        image: crazydanila/history:1
         ports:
         - name: history-port
           containerPort: 4002

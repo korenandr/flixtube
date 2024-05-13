@@ -15,8 +15,7 @@ spec:
     spec:
       containers: 
       - name: video-storage
-        image: video-storage:1
-        imagePullPolicy: Never
+        image: crazydanila/video-storage:1
         ports:
         - name: storage-port
           containerPort: 4001
