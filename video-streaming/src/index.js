@@ -38,6 +38,42 @@ const DBNAME = process.env.DBNAME;
 
 console.log(`Forwarding video requests to ${VIDEO_STORAGE_HOST}:${VIDEO_STORAGE_PORT}.`);
 
+//
+// Send the "viewed" to the history microservice.
+//
+function sendViewedMessage(videoPath) {
+    const postOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+
+    const requestBody = {
+        videoPath: videoPath 
+    };
+
+    const req = http.request(
+        "http://history/viewed",
+        postOptions
+    );
+
+    req.on("close", () => {
+        console.log("Sent 'viewed' message to history microservice.");
+    });
+
+    req.on("error", (err) => {
+        console.error("Failed to send 'viewed' message!");
+        console.error(err && err.stack || err);
+    });
+
+    req.write(JSON.stringify(requestBody));
+    req.end();
+}
+
+//
+// Application entry point.
+//
 async function main() {
     const client = await mongodb.MongoClient.connect(DBHOST); // Connects to the database.
     const db = client.db(DBNAME);
@@ -72,6 +108,8 @@ async function main() {
         );
         
         req.pipe(forwardRequest);
+
+        sendViewedMessage(videoRecord.videoPath);
     });
 
     //
