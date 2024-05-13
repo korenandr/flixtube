@@ -1,21 +1,6 @@
 version: '3'
 services:
 
-  history:
-    image: history
-    build: 
-      context: ./history
-      dockerfile: Dockerfile-prod
-    container_name: history
-    ports:
-     - "4003:80"
-    environment:
-      - PORT=80
-      - RABBIT=amqp://guest:guest@rabbit:5672
-      - DBHOST=mongodb://db:27017
-      - DBNAME=history
-    restart: "no"
-
   rabbit:
     image: rabbitmq:3.12.4-management
     container_name: rabbit
@@ -28,8 +13,23 @@ services:
     image: mongo:7.0.0
     container_name: db
     ports:
-     - "4002:27017"
+     - "27017:27017"
     restart: always
+
+  history:
+    image: history
+    build: 
+      context: ./history
+      dockerfile: Dockerfile-prod
+    container_name: history
+    ports:
+     - "4002:80"
+    environment:
+      - PORT=80
+      - RABBIT=amqp://guest:guest@rabbit:5672
+      - DBHOST=mongodb://db:27017
+      - DBNAME=history
+    restart: "no"
 
   aws-storage:
     image: aws-storage
