@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: flixtube
+  name: history
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: history
+  template:
+    metadata:
+      labels:
+        app: history
+    spec:
+      containers: 
+      - name: history
+        image: history:1
+        imagePullPolicy: Never
+        ports:
+        - name: history-port
+          containerPort: 4002
+        env:
+        - name: PORT
+          value: "4002"
+        - name: RABBIT
+          value: "amqp://guest:guest@rabbit:5672"
+        - name: DBHOST
+          value: "mongodb://db:27017"
+        - name: DBNAME
+          value: "history"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: flixtube
+  name: history
+spec:
+  selector:
+    app: history
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4002
