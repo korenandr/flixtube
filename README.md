@@ -8,7 +8,7 @@ EXPORT STORAGE_ACCESS_KEY_ID=<your aws access key id>
 EXPORT STORAGE_SECRET_ACCESS_KEY=<your aws secret access key>
 ```
 
-# How to run
+# How to run locally
 
 You need Docker and Docker-Compose installed to run this.
 
@@ -25,25 +25,40 @@ To stop the microservices:
 docker compose -f docker-compose-prod.yml down
 ```
 
-# How to run inside minikube cluster
-
-You need minikube and kubectl installed to run this.
+# How to run inside minikube/eks cluster
 
 Add STORAGE_BUCKET_NAME and STORAGE_REGION_NAME into deploy/video-storage-config.yml
+Now you have to choose where you want to deploy your app (minikube or AWS).
+
+## How to setup minikube cluster
+
+You need minikube and kubectl installed to run this.
 
 Launch local cluster:
 ```bash
 minikube start --addons=ingress --cpus 4 --memory 4096 --namespace="flixtube"
+```
+
+## How to setup AWS EKS cluster
+```bash
+eksctl create cluster --name test-cluster --version 1.29 --region eu-north-1 --nodegroup-name linux-nodes --node-type t3.micro --nodes 10
+```
+
+# Deploy application
+```bash
 kubectl apply -f deploy/namespace.yml
-```
-
-Create a Secret to store your AWS access keys:
-```bash
-kubectl create secret generic aws-keys --from-literal=STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID} \
---from-literal=STORAGE_SECRET_ACCESS_KEY={STORAGE_SECRET_ACCESS_KEY}
-```
-
-Deploy application:
-```bash
+kubectl create secret generic aws-keys --from-literal=STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID} --from-literal=STORAGE_SECRET_ACCESS_KEY={STORAGE_SECRET_ACCESS_KEY}
 kubectl apply -f deploy
+```
+
+# Clean up resources
+
+## minikube cluster
+```bash
+minikube delete
+```
+
+## AWS EKS cluster
+```bash
+eksctl delete cluster --name test-cluster
 ```
