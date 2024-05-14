@@ -16,6 +16,7 @@ spec:
       containers: 
       - name: recommendations
         image: crazydanila/recommendations:1
+        imagePullPolicy: IfNotPresent
         env:
         - name: PORT
           value: "4003"
