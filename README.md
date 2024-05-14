@@ -18,6 +18,7 @@ docker compose -f docker-compose-prod.yml up --build
 ```
 
 Add sample from db-fixture into your mongodb container
+
 Then point your browser at http://localhost:4000/video?id=5d9e690ad76fe06a3d7ae416
 
 To stop the microservices:
@@ -28,6 +29,7 @@ docker compose -f docker-compose-prod.yml down
 # How to run inside minikube/eks cluster
 
 Add STORAGE_BUCKET_NAME and STORAGE_REGION_NAME into deploy/video-storage-config.yml
+
 Now you have to choose where you want to deploy your app (minikube or AWS).
 
 ## How to setup minikube cluster
@@ -40,6 +42,10 @@ minikube start --addons=ingress --cpus 4 --memory 4096 --namespace="flixtube"
 ```
 
 ## How to setup AWS EKS cluster
+
+You need eksctl installed to run this.
+
+Launch EKS cluster on AWS:
 ```bash
 eksctl create cluster --name test-cluster --version 1.29 --region eu-north-1 --nodegroup-name linux-nodes --node-type t3.micro --nodes 10
 ```
