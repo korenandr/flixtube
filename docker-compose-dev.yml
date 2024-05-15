@@ -19,7 +19,7 @@ services:
   video-streaming:
     image: video-streaming
     build: 
-      context: ./video-streaming
+      context: ./services/video-streaming
       dockerfile: Dockerfile-dev
     container_name: video-streaming
     volumes:
@@ -44,7 +44,7 @@ services:
   aws-storage:
     image: aws-storage
     build: 
-      context: ./aws-storage
+      context: ./services/aws-storage
       dockerfile: Dockerfile-dev
     container_name: video-storage
     volumes:
@@ -64,7 +64,7 @@ services:
   history:
     image: history
     build: 
-      context: ./history
+      context: ./services/history
       dockerfile: Dockerfile-dev
     container_name: history
     volumes:
@@ -86,7 +86,7 @@ services:
   recommendations:
     image: recommendations
     build: 
-      context: ./recommendations
+      context: ./services/recommendations
       dockerfile: Dockerfile-dev
     container_name: recommendations
     volumes:

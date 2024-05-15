@@ -19,7 +19,7 @@ services:
   video-streaming:
     image: video-streaming
     build: 
-      context: ./video-streaming
+      context: ./services/video-streaming
       dockerfile: Dockerfile-prod
     container_name: video-streaming
     ports:
@@ -36,7 +36,7 @@ services:
   aws-storage:
     image: aws-storage
     build: 
-      context: ./aws-storage
+      context: ./services/aws-storage
       dockerfile: Dockerfile-prod
     container_name: video-storage
     ports:
@@ -52,7 +52,7 @@ services:
   history:
     image: history
     build: 
-      context: ./history
+      context: ./services/history
       dockerfile: Dockerfile-prod
     container_name: history
     ports:
@@ -67,7 +67,7 @@ services:
   recommendations:
     image: recommendations
     build: 
-      context: ./recommendations
+      context: ./services/recommendations
       dockerfile: Dockerfile-prod
     container_name: recommendations
     ports:
