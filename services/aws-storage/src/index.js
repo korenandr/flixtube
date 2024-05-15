@@ -37,6 +37,13 @@ const STORAGE_REGION_NAME = process.env.STORAGE_REGION_NAME;
 
 const app = express();
 
+//
+// HTTP GET route we can use to check if the service is handling requests.
+//
+app.get("/live", (req, res) => {
+    res.sendStatus(200);
+});
+
 // Configure AWS SDK with your credentials
 AWS.config.update({
     accessKeyId: STORAGE_ACCESS_KEY_ID,
@@ -62,9 +69,19 @@ app.get('/video', (req, res) => {
     stream.pipe(res);
 });
 
-//
-// Starts the HTTP server.
-//
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+if (require.main === module) {
+    //
+    // When this script is run as the entry point, starts the HTTP server.
+    //
+    app.listen(PORT, () => {
+        console.log(`Microservice online.`);
+    });
+}
+else {
+    //
+    // Otherwise, exports the express app object for use in tests.
+    //
+    module.exports = {
+        app,
+    };
+}

@@ -1,0 +1,39 @@
+name: "Continuous Integration - Main/Release"
+
+on:
+  push: 
+    branches:
+      - main
+      - release/*
+
+  #
+  # Allows deployment to be invoked manually through the GitHub Actions user interface.
+  #
+  workflow_dispatch: 
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    
+    - uses: actions/checkout@v4
+
+    # 
+    # Installs Node.js for use in the workflow.
+    #
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18.x
+        cache: 'npm'
+    
+    - name: Run Unit Tests
+      timeout-minutes: 10
+      run: |
+        for SERVICE in "aws-storage"; do
+          echo "testing $SERVICE..."
+          pushd src/$SERVICE
+          npm ci
+          npm test
+          popd
+        done
