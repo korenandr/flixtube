@@ -1,4 +1,4 @@
-const express = require('express');
+const createApp = require('./app');
 const AWS = require('aws-sdk');
 
 //
@@ -35,14 +35,6 @@ const STORAGE_ACCESS_KEY_ID = process.env.STORAGE_ACCESS_KEY_ID;
 const STORAGE_SECRET_ACCESS_KEY = process.env.STORAGE_SECRET_ACCESS_KEY;
 const STORAGE_REGION_NAME = process.env.STORAGE_REGION_NAME;
 
-const app = express();
-
-//
-// HTTP GET route we can use to check if the service is handling requests.
-//
-app.get("/live", (req, res) => {
-    res.sendStatus(200);
-});
 
 // Configure AWS SDK with your credentials
 AWS.config.update({
@@ -54,34 +46,12 @@ AWS.config.update({
 // Create an S3 instance
 const s3 = new AWS.S3();
 
-// Define a route to stream the video
-app.get('/video', (req, res) => {
-    const videoPath = req.query.path;
-    console.log(`Streaming video from path ${videoPath}.`);
-
-    // Create a read stream from S3 object
-    const stream = s3.getObject({ Bucket: STORAGE_BUCKET_NAME, Key: videoPath }).createReadStream();
-
-    // Set the appropriate content type for the video
-    res.setHeader('Content-Type', 'video/mp4');
-
-    // Pipe the stream to the response object
-    stream.pipe(res);
-});
+const app = createApp(s3, STORAGE_BUCKET_NAME);
 
 if (require.main === module) {
-    //
-    // When this script is run as the entry point, starts the HTTP server.
-    //
-    app.listen(PORT, () => {
-        console.log(`Microservice online.`);
-    });
-}
-else {
-    //
-    // Otherwise, exports the express app object for use in tests.
-    //
-    module.exports = {
-        app,
-    };
+    // This file was run directly, start the server
+    app.listen(PORT, () => console.info(`Microservice online.`));
+} else {
+    // This file was required as a module, export the app
+    module.exports = app;
 }
