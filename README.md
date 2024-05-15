@@ -52,9 +52,9 @@ eksctl create cluster --name test-cluster --version 1.29 --region eu-north-1 --n
 
 # Deploy application
 ```bash
-kubectl apply -f deploy/namespace.yml
+kubectl apply -f deploy/k8s/namespace.yml
 kubectl create secret generic aws-keys --from-literal=STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID} --from-literal=STORAGE_SECRET_ACCESS_KEY={STORAGE_SECRET_ACCESS_KEY}
-kubectl apply -f deploy
+kubectl apply -f deploy/k8s
 ```
 
 # Clean up resources
