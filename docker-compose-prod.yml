@@ -99,3 +99,18 @@ services:
       - db
       - rabbit
     restart: "no"
+  
+  video-uploader:
+    image: video-uploader
+    build: 
+      context: ./services/video-uploader
+      dockerfile: Dockerfile-prod
+    container_name: video-uploader
+    ports:
+     - "4005:80"
+    environment:
+      - PORT=80
+      - RABBIT=amqp://guest:guest@rabbit:5672
+    depends_on:
+      - rabbit
+    restart: "no"
