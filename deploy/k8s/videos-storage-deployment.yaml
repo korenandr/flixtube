@@ -2,20 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: flixtube
-  name: video-storage
+  name: videos-storage
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: video-storage
+      app: videos-storage
   template:
     metadata:
       labels:
-        app: video-storage
+        app: videos-storage
     spec:
       containers: 
-      - name: video-storage
-        image: crazydanila/video-storage:1
+      - name: videos-storage
+        image: crazydanila/videos-storage:1
         imagePullPolicy: IfNotPresent
         ports:
         - name: storage-port
@@ -26,12 +26,12 @@ spec:
         - name: STORAGE_BUCKET_NAME
           valueFrom:
             configMapKeyRef:
-              name: video-storage-config
+              name: videos-storage-config
               key: STORAGE_BUCKET_NAME
         - name: STORAGE_REGION_NAME
           valueFrom:
             configMapKeyRef:
-              name: video-storage-config
+              name: videos-storage-config
               key: STORAGE_REGION_NAME
         - name: STORAGE_ACCESS_KEY_ID
           valueFrom:
@@ -48,10 +48,10 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: flixtube
-  name: video-storage
+  name: videos-storage
 spec:
   selector:
-    app: video-storage
+    app: videos-storage
   ports:
     - protocol: TCP
       port: 80

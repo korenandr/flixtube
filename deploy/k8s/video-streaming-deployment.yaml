@@ -29,9 +29,9 @@ spec:
           value: "mongodb://db:27017"
         - name: DBNAME
           value: "video-streaming"
-        - name: VIDEO_STORAGE_HOST
+        - name: VIDEOS_STORAGE_HOST
           value: "video-storage"
-        - name: VIDEO_STORAGE_PORT
+        - name: VIDEOS_STORAGE_PORT
           value: "80"
 ---
 apiVersion: v1

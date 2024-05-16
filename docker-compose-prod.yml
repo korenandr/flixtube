@@ -29,16 +29,16 @@ services:
       - RABBIT=amqp://guest:guest@rabbit:5672
       - DBHOST=mongodb://db:27017
       - DBNAME=video-streaming
-      - VIDEO_STORAGE_HOST=video-storage
-      - VIDEO_STORAGE_PORT=80
+      - VIDEOS_STORAGE_HOST=videos-storage
+      - VIDEOS_STORAGE_PORT=80
     restart: "no"
   
-  aws-storage:
-    image: aws-storage
+  videos-storage:
+    image: videos-storage
     build: 
-      context: ./services/aws-storage
+      context: ./services/videos-storage
       dockerfile: Dockerfile-prod
-    container_name: video-storage
+    container_name: videos-storage
     ports:
      - "4001:80"
     environment:

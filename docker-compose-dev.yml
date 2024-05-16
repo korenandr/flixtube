@@ -33,23 +33,23 @@ services:
       - RABBIT=amqp://guest:guest@rabbit:5672
       - DBHOST=mongodb://db:27017
       - DBNAME=video-streaming
-      - VIDEO_STORAGE_HOST=video-storage
-      - VIDEO_STORAGE_PORT=80
+      - VIDEOS_STORAGE_HOST=videos-storage
+      - VIDEOS_STORAGE_PORT=80
       - NODE_ENV=development
     depends_on:
       - db
       - rabbit
     restart: "no"
   
-  aws-storage:
-    image: aws-storage
+  videos-storage:
+    image: videos-storage
     build: 
-      context: ./services/aws-storage
+      context: ./services/videos-storage
       dockerfile: Dockerfile-dev
-    container_name: video-storage
+    container_name: videos-storage
     volumes:
-      - /tmp/aws-storage/npm-cache:/root/.npm:z
-      - ./aws-storage/src:/usr/src/app/src:z
+      - /tmp/videos-storage/npm-cache:/root/.npm:z
+      - ./videos-storage/src:/usr/src/app/src:z
     ports:
      - "4001:80"
     environment:

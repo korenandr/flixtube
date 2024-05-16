@@ -15,12 +15,12 @@ if (!process.env.RABBIT) {
     throw new Error("Please specify the name of the RabbitMQ host using environment variable RABBIT");
 }
 
-if (!process.env.VIDEO_STORAGE_HOST) {
-    throw new Error("Please specify the host name for the video storage microservice in variable VIDEO_STORAGE_HOST.");
+if (!process.env.VIDEOS_STORAGE_HOST) {
+    throw new Error("Please specify the host name for the video storage microservice in variable VIDEOS_STORAGE_HOST.");
 }
 
-if (!process.env.VIDEO_STORAGE_PORT) {
-    throw new Error("Please specify the port number for the video storage microservice in variable VIDEO_STORAGE_PORT.");
+if (!process.env.VIDEOS_STORAGE_PORT) {
+    throw new Error("Please specify the port number for the video storage microservice in variable VIDEOS_STORAGE_PORT.");
 }
 
 if (!process.env.DBHOST) {
@@ -37,12 +37,12 @@ if (!process.env.DBNAME) {
 
 const PORT = process.env.PORT;
 const RABBIT = process.env.RABBIT;
-const VIDEO_STORAGE_HOST = process.env.VIDEO_STORAGE_HOST;
-const VIDEO_STORAGE_PORT = parseInt(process.env.VIDEO_STORAGE_PORT);
+const VIDEOS_STORAGE_HOST = process.env.VIDEOS_STORAGE_HOST;
+const VIDEOS_STORAGE_PORT = parseInt(process.env.VIDEOS_STORAGE_PORT);
 const DBHOST = process.env.DBHOST;
 const DBNAME = process.env.DBNAME;
 
-console.log(`Forwarding video requests to ${VIDEO_STORAGE_HOST}:${VIDEO_STORAGE_PORT}.`);
+console.log(`Forwarding video requests to ${VIDEOS_STORAGE_HOST}:${VIDEOS_STORAGE_PORT}.`);
 
 //
 // Broadcasts the "viewed" message to other microservices.
@@ -86,8 +86,8 @@ async function main() {
 
         const forwardRequest = http.request( // Forward the request to the video storage microservice.
             {
-                host: VIDEO_STORAGE_HOST,
-                port: VIDEO_STORAGE_PORT,
+                host: VIDEOS_STORAGE_HOST,
+                port: VIDEOS_STORAGE_PORT,
                 path:`/video?path=${videoRecord.videoPath}`,
                 method: 'GET',
                 headers: req.headers

@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: flixtube
-  name: video-storage-config
+  name: videos-storage-config
 data:
   STORAGE_BUCKET_NAME: "myawsbucketforvideo"
   STORAGE_REGION_NAME: "eu-north-1"
