@@ -28,7 +28,7 @@ jobs:
       with:
         node-version: 20.x
         cache: 'npm'
-        cache-dependency-path: services/aws-storage/package-lock.json
+        cache-dependency-path: services/videos-storage/package-lock.json
     
     - name: Install Dependencies
       run: npm ci
