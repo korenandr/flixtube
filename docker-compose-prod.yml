@@ -85,7 +85,7 @@ services:
   metadata:
     image: metadata
     build: 
-      context: ./metadata
+      context: ./services/metadata
       dockerfile: Dockerfile-prod
     container_name: metadata
     ports:
@@ -108,6 +108,21 @@ services:
     container_name: video-uploader
     ports:
      - "4005:80"
+    environment:
+      - PORT=80
+      - RABBIT=amqp://guest:guest@rabbit:5672
+    depends_on:
+      - rabbit
+    restart: "no"
+  
+  gateway:
+    image: gateway
+    build: 
+      context: ./services/gateway
+      dockerfile: Dockerfile-prod
+    container_name: gateway
+    ports:
+      - "4006:80"
     environment:
       - PORT=80
       - RABBIT=amqp://guest:guest@rabbit:5672

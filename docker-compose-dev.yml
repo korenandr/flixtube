@@ -146,3 +146,22 @@ services:
     depends_on:
       - rabbit
     restart: "no"
+  
+  gateway:
+    image: gateway
+    build: 
+      context: ./services/gateway
+      dockerfile: Dockerfile-dev
+    container_name: gateway
+    volumes:
+      - /tmp/gateway/npm-cache:/root/.npm:z
+      - ./services/gateway/src:/usr/src/app/src:z
+    ports:
+      - "4006:80"
+    environment:
+      - PORT=80
+      - RABBIT=amqp://guest:guest@rabbit:5672
+      - NODE_ENV=development
+    depends_on:
+      - rabbit
+    restart: "no"
