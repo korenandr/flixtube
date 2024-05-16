@@ -81,3 +81,21 @@ services:
       - db
       - rabbit
     restart: "no"
+  
+  metadata:
+    image: metadata
+    build: 
+      context: ./metadata
+      dockerfile: Dockerfile-prod
+    container_name: metadata
+    ports:
+     - "4004:80"
+    environment:
+      - PORT=80
+      - RABBIT=amqp://guest:guest@rabbit:5672
+      - DBHOST=mongodb://db:27017
+      - DBNAME=metadata
+    depends_on:
+      - db
+      - rabbit
+    restart: "no"
