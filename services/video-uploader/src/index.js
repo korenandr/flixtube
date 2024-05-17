@@ -43,9 +43,9 @@ async function main() {
 
         const fileName = req.headers["file-name"];
         const videoId = new mongodb.ObjectId(); // Creates a new unique ID for the video.
-        const response = await axios({ // Forwards the request to the video-storate microservice.
+        const response = await axios({ // Forwards the request to the videos-storage microservice.
             method: "POST",
-            url: "http://video-storage/upload", 
+            url: "http://videos-storage/upload", 
             data: req, 
             responseType: "stream",
             headers: {
