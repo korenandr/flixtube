@@ -15,22 +15,20 @@ services:
     ports:
      - "27017:27017"
     restart: always
-
-  video-streaming:
-    image: video-streaming
+  
+  gateway:
+    image: gateway
     build: 
-      context: ./services/video-streaming
+      context: ./services/gateway
       dockerfile: Dockerfile-prod
-    container_name: video-streaming
+    container_name: gateway
     ports:
-     - "4000:80"
+      - "4000:80"
     environment:
       - PORT=80
       - RABBIT=amqp://guest:guest@rabbit:5672
-      - DBHOST=mongodb://db:27017
-      - DBNAME=video-streaming
-      - VIDEOS_STORAGE_HOST=videos-storage
-      - VIDEOS_STORAGE_PORT=80
+    depends_on:
+      - rabbit
     restart: "no"
   
   videos-storage:
@@ -115,17 +113,19 @@ services:
       - rabbit
     restart: "no"
   
-  gateway:
-    image: gateway
+  video-streaming:
+    image: video-streaming
     build: 
-      context: ./services/gateway
+      context: ./services/video-streaming
       dockerfile: Dockerfile-prod
-    container_name: gateway
+    container_name: video-streaming
     ports:
-      - "4006:80"
+     - "4006:80"
     environment:
       - PORT=80
       - RABBIT=amqp://guest:guest@rabbit:5672
-    depends_on:
-      - rabbit
+      - DBHOST=mongodb://db:27017
+      - DBNAME=video-streaming
+      - VIDEOS_STORAGE_HOST=videos-storage
+      - VIDEOS_STORAGE_PORT=80
     restart: "no"
