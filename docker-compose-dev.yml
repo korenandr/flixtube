@@ -25,6 +25,7 @@ services:
     volumes:
       - /tmp/gateway/npm-cache:/root/.npm:z
       - ./services/gateway/src:/usr/src/app/src:z
+      - ./services/gateway/public:/usr/src/app/public:z
     ports:
       - "4000:80"
     environment:
