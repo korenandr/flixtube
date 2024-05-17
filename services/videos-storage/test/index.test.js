@@ -5,7 +5,13 @@ describe("video storage microservice", () => {
 
     test("microservice can handle requests", async () => {
 
-        const response = await request(app).get("/live"); // Makes a request to the "/live" route.
-        expect(response.status).toBe(200); // Verify that a HTTP status code 200 is returned, indicating success.
+        const response = await request(app).get("/live");
+        expect(response.status).toBe(200);
+    });
+
+    test("upload route is handled", async () => {
+
+        const response = await request(app).post("/upload");
+        expect(response.status).toBe(200);
     });
 });

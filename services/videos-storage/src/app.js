@@ -30,7 +30,7 @@ const createApp = (s3, bucket) => {
     // HTTP POST route to upload a video to AWS storage.
     //
     app.post('/upload', (req, res) => {
-        return res.status(200)
+        res.sendStatus(200);
     });
 
     return app;
