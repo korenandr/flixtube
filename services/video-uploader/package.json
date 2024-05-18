@@ -5,7 +5,9 @@
     "main": "./src/index.js",
     "scripts": {
       "start": "node ./src/index.js",
-      "start:dev": "nodemon --legacy-watch ./src/index.js"
+      "start:dev": "nodemon --legacy-watch ./src/index.js",
+      "test": "jest",
+      "test:watch": "jest --watchAll"
     },
     "keywords": [],
     "author": "",
@@ -18,6 +20,7 @@
       "wait-port": "^0.2.6"
     },
     "devDependencies": {
+      "jest": "^29.6.4",
       "nodemon": "^2.0.21"
     }
 }

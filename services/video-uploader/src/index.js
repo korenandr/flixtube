@@ -3,38 +3,28 @@ const mongodb = require("mongodb");
 const amqp = require('amqplib');
 const axios = require("axios");
 
-if (!process.env.PORT) {
-    throw new Error("Please specify the port number for the HTTP server with the environment variable PORT.");
-}
-
-if (!process.env.RABBIT) {
-    throw new Error("Please specify the name of the RabbitMQ host using environment variable RABBIT");
-}
-
-const PORT = process.env.PORT;
-const RABBIT = process.env.RABBIT;
 
 //
-// Application entry point.
+// Broadcasts the "video-uploaded" message to other microservices.
 //
-async function main() {
+function broadcastVideoUploadedMessage(messageChannel, videoMetadata) {
+    console.log(`Publishing message on "video-uploaded" exchange.`);
+        
+    const msg = { video: videoMetadata };
+    const jsonMsg = JSON.stringify(msg);
+    messageChannel.publish("video-uploaded", "", Buffer.from(jsonMsg)); // Publishes the message to the "video-uploaded" exchange.
+}
 
-    const messagingConnection = await amqp.connect(RABBIT); // Connects to the RabbitMQ server.
+//
+// Starts the microservice.
+//
+async function startMicroservice(rabbitHost, port) {
+
+    const messagingConnection = await amqp.connect(rabbitHost); // Connects to the RabbitMQ server.
 
     const messageChannel = await messagingConnection.createChannel(); // Creates a RabbitMQ messaging channel.
 
     const app = express();
-
-    //
-    // Broadcasts the "video-uploaded" message.
-    //
-    function broadcastVideoUploadedMessage(videoMetadata) {
-        console.log(`Publishing message on "video-uploaded" exchange.`);
-            
-        const msg = { video: videoMetadata };
-        const jsonMsg = JSON.stringify(msg);
-        messageChannel.publish("video-uploaded", "", Buffer.from(jsonMsg)); // Publishes the message to the "video-uploaded" exchange.
-    }
 
     //
     // Route for uploading videos.
@@ -56,18 +46,49 @@ async function main() {
         response.data.pipe(res);
 
         // Broadcasts the message to other microservices.
-        broadcastVideoUploadedMessage({ id: videoId, name: fileName });
+        broadcastVideoUploadedMessage(messageChannel, { id: videoId, name: fileName });
     });
 
     // Other handlers go here.
 
-    app.listen(PORT, () => { // Starts the HTTP server.
+    app.listen(port, () => { // Starts the HTTP server.
         console.log("Microservice online.");
     });
 }
 
-main()
-    .catch(err => {
-        console.error("Microservice failed to start.");
-        console.error(err && err.stack || err);
-    });
+//
+// Application entry point.
+//
+async function main() {
+    //
+    // Throws an error if the any required environment variables are missing.
+    //
+
+    if (!process.env.PORT) {
+        throw new Error("Please specify the port number for the HTTP server with the environment variable PORT.");
+    }
+    
+    if (!process.env.RABBIT) {
+        throw new Error("Please specify the name of the RabbitMQ host using environment variable RABBIT");
+    }
+    
+    const PORT = process.env.PORT;
+    const RABBIT = process.env.RABBIT;
+
+    await startMicroservice(RABBIT, PORT);
+}
+
+if (require.main === module) {
+    // Only start the microservice normally if this script is the "main" module.
+    main()
+        .catch(err => {
+            console.error("Microservice failed to start.");
+            console.error(err && err.stack || err);
+        });
+}
+else {
+    // Otherwise we are running under test
+    module.exports = {
+        startMicroservice,
+    };
+}

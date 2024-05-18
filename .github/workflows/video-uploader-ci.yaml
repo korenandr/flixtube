@@ -1,0 +1,36 @@
+name: "Continuous Integration: video-uploader"
+
+on:
+  push:
+    # run the workflow only on changes to the following paths
+    paths:
+      - "services/video-uploader/**"
+      - ".github/workflows/video-uploader-ci.yaml"
+
+defaults:
+  run:
+    working-directory: services/video-uploader
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+        cache: 'npm'
+        cache-dependency-path: services/video-uploader/package-lock.json
+    
+    - name: Install Dependencies
+      run: npm ci
+    
+    - name: Build service
+      run: npm run build --if-present
+
+    - name: Run Unit Tests
+      run: npm test
