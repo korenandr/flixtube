@@ -1,4 +1,4 @@
-name: "Continuous Integration: videos-storage"
+name: "Continuous Integration: history"
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 defaults:
   run:
-    working-directory: services/videos-storage
+    working-directory: services/history
   
 jobs:
   build:
@@ -23,7 +23,7 @@ jobs:
       with:
         node-version: 20.x
         cache: 'npm'
-        cache-dependency-path: services/videos-storage/package-lock.json
+        cache-dependency-path: services/history/package-lock.json
     
     - name: Install Dependencies
       run: npm ci
