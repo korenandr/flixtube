@@ -2,31 +2,11 @@ const express = require("express");
 const mongodb = require("mongodb");
 const amqp = require('amqplib');
 
-if (!process.env.PORT) {
-    throw new Error("Please specify the port number for the HTTP server with the environment variable PORT.");
-}
-
-if (!process.env.DBHOST) {
-    throw new Error("Please specify the database host using environment variable DBHOST.");
-}
-
-if (!process.env.DBNAME) {
-    throw new Error("Please specify the name of the database using environment variable DBNAME");
-}
-
-if (!process.env.RABBIT) {
-    throw new Error("Please specify the name of the RabbitMQ host using environment variable RABBIT");
-}
-
-const PORT = process.env.PORT;
-const DBHOST = process.env.DBHOST;
-const DBNAME = process.env.DBNAME;
-const RABBIT = process.env.RABBIT;
 
 //
-// Application entry point.
+// Starts the microservice.
 //
-async function main() {
+async function startMicroservice(dbHost, dbName, rabbitHost, port) {
 
     const app = express();
 
@@ -38,12 +18,12 @@ async function main() {
     //
     // Connects to the database server.
     //
-    const client = await mongodb.MongoClient.connect(DBHOST);
+    const client = await mongodb.MongoClient.connect(dbHost);
 
     //
     // Gets the database for this microservice.
     //
-    const db  = client.db(DBNAME);
+    const db  = client.db(dbName);
 
     //
     // Gets the collection for storing video viewing history.
@@ -53,7 +33,7 @@ async function main() {
     //
     // Connects to the RabbitMQ server.
     //
-    const messagingConnection = await amqp.connect(RABBIT); 
+    const messagingConnection = await amqp.connect(rabbitHost); 
 
     console.log("Connected to RabbitMQ.");
 
@@ -110,13 +90,51 @@ async function main() {
     //
     // Starts the HTTP server.
     //
-    app.listen(PORT, () => {
+    app.listen(port, () => {
         console.log("Microservice online.");
     });
 }
 
-main()
-    .catch(err => {
-        console.error("Microservice failed to start.");
-        console.error(err && err.stack || err);
-    });
+//
+// Application entry point.
+//
+async function main() {
+    if (!process.env.PORT) {
+        throw new Error("Please specify the port number for the HTTP server with the environment variable PORT.");
+    }
+    
+    if (!process.env.DBHOST) {
+        throw new Error("Please specify the database host using environment variable DBHOST.");
+    }
+    
+    if (!process.env.DBNAME) {
+        throw new Error("Please specify the name of the database using environment variable DBNAME");
+    }
+    
+    if (!process.env.RABBIT) {
+        throw new Error("Please specify the name of the RabbitMQ host using environment variable RABBIT");
+    }
+    
+    const PORT = process.env.PORT;
+    const DBHOST = process.env.DBHOST;
+    const DBNAME = process.env.DBNAME;
+    const RABBIT = process.env.RABBIT;
+
+    await startMicroservice(DBHOST, DBNAME, RABBIT, PORT);
+}
+
+
+if (require.main === module) {
+    // Only start the microservice normally if this script is the "main" module.
+    main()
+        .catch(err => {
+            console.error("Microservice failed to start.");
+            console.error(err && err.stack || err);
+        });
+}
+else {
+    // Otherwise we are running under test
+    module.exports = {
+        startMicroservice,
+    };
+}
