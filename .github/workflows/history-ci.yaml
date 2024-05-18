@@ -2,9 +2,10 @@ name: "Continuous Integration: history"
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ] 
+    # run the workflow only on changes to the following paths
+    paths:
+      - "services/history/**"
+      - ".github/workflows/history-ci.yaml"
 
 defaults:
   run:

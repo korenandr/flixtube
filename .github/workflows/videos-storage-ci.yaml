@@ -2,9 +2,10 @@ name: "Continuous Integration: videos-storage"
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    # run the workflow only on changes to the following paths
+    paths:
+      - "services/videos-storage/**"
+      - ".github/workflows/videos-storage-ci.yaml"
 
 defaults:
   run:
