@@ -15,3 +15,12 @@ This is the Continuous Deployment workflow, and it runs on demand ([Push image](
 
 1. Builds the container image for choosen service, tagging with hash of last commit.
 2. Push that image to DockerHub.
+
+**Note**
+Currently supported services:
+    *gateway
+    *history
+    *metadata
+    *videos-streaming
+    *video-uploader
+    *videos-storage
