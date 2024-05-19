@@ -1,4 +1,4 @@
-name: Deploy service
+name: Push image to DockerHub
 
 on:
   #
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       service:
-        description: 'Service to deploy'     
+        description: 'Write a service name to push to DockerHub'     
         required: true
 
 jobs:
