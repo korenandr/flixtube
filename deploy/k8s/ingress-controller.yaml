@@ -2,9 +2,9 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: flixtube
-  name: video-streaming
+  name: gateway
   labels:
-    name: video-streaming
+    name: gateway
 spec:
   ingressClassName: nginx
   rules:
@@ -14,6 +14,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: video-streaming
+                name: gateway
                 port:
                   number: 80

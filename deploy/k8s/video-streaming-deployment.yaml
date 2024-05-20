@@ -15,14 +15,14 @@ spec:
     spec:
       containers: 
       - name: video-streaming
-        image: crazydanila/video-streaming:1
+        image: crazydanila/video-streaming:e642902dfb94b326095d40d103fd9ea1369dd739
         imagePullPolicy: IfNotPresent
         ports:
         - name: streaming-port
-          containerPort: 4000
+          containerPort: 4006
         env:
         - name: PORT
-          value: "4000"
+          value: "4006"
         - name: RABBIT
           value: "amqp://guest:guest@rabbit:5672"
         - name: DBHOST

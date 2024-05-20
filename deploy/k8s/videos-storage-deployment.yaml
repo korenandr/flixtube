@@ -15,7 +15,7 @@ spec:
     spec:
       containers: 
       - name: videos-storage
-        image: crazydanila/videos-storage:1
+        image: crazydanila/videos-storage:e642902dfb94b326095d40d103fd9ea1369dd739
         imagePullPolicy: IfNotPresent
         ports:
         - name: storage-port

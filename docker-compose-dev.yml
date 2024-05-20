@@ -30,10 +30,7 @@ services:
       - "4000:80"
     environment:
       - PORT=80
-      - RABBIT=amqp://guest:guest@rabbit:5672
       - NODE_ENV=development
-    depends_on:
-      - rabbit
     restart: "no"
   
   videos-storage:

@@ -32,12 +32,33 @@ You need to install eksctl on your development computer. Also you need to have I
 4. Deploy application
 
     ```bash
-    kubectl apply -f deploy/k8s/namespace.yml
+    kubectl apply -f deploy/k8s/namespace.yaml
     kubectl create secret generic aws-keys --from-literal=STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID} --from-literal=STORAGE_SECRET_ACCESS_KEY={STORAGE_SECRET_ACCESS_KEY}
     kubectl apply -f deploy/k8s
     ```
 
-4. Check your external ip address.
+5. Wait for the pods to be ready.
+
+    ```bash
+    kubectl get pods
+    ```
+
+    After a few minutes, you should see the Pods in a `Running` state:
+
+   ```
+   NAME                                     READY   STATUS    RESTARTS   AGE
+   db-f67bfbd98-wlnvh                       1/1     Running   0          7m36s
+   gateway-7f75c46f5f-pkxkg                 1/1     Running   0          7m36s
+   history-6cc49779d-km4xm                  1/1     Running   0          7m36s
+   metadata-56d4fc6cbb-992gk                1/1     Running   0          7m36s
+   rabbit-85687f5ccb-sffgq                  1/1     Running   0          7m36s
+   recommendations-7b7c7c7df6-wg6rw         1/1     Running   0          7m36s
+   video-streaming-58db654b4-2nvsx          1/1     Running   0          7m36s
+   videos-storage-5fd5d8c96f-2k6mh          1/1     Running   0          7m36s
+   videos-uploader-6dc5b8c4dc-cth4h         1/1     Running   0          7m36s
+   ```
+
+6. Check your external ip address.
 
     ```bash
     kubectl describe ingress -n flixtube

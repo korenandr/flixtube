@@ -15,7 +15,7 @@ spec:
     spec:
       containers: 
       - name: recommendations
-        image: crazydanila/recommendations:1
+        image: crazydanila/recommendations:e642902dfb94b326095d40d103fd9ea1369dd739
         imagePullPolicy: IfNotPresent
         env:
         - name: PORT

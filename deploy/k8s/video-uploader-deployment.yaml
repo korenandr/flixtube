@@ -2,43 +2,39 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: flixtube
-  name: history
+  name: video-uploader
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: history
+      app: video-uploader
   template:
     metadata:
       labels:
-        app: history
+        app: video-uploader
     spec:
       containers: 
-      - name: history
-        image: crazydanila/history:e642902dfb94b326095d40d103fd9ea1369dd739
+      - name: video-uploader
+        image: crazydanila/video-uploader:e642902dfb94b326095d40d103fd9ea1369dd739
         imagePullPolicy: IfNotPresent
         ports:
-        - name: history-port
-          containerPort: 4002
+        - name: uploader-port
+          containerPort: 4005
         env:
         - name: PORT
-          value: "4002"
+          value: "4005"
         - name: RABBIT
           value: "amqp://guest:guest@rabbit:5672"
-        - name: DBHOST
-          value: "mongodb://db:27017"
-        - name: DBNAME
-          value: "history"
 ---
 apiVersion: v1
 kind: Service
 metadata:
   namespace: flixtube
-  name: history
+  name: video-uploader
 spec:
   selector:
-    app: history
+    app: video-uploader
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 4002
+      targetPort: 4005
