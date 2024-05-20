@@ -1,3 +1,10 @@
+## Architecture
+
+**FlixTube** is composed of 7 microservices written in nodejs.
+
+[![Architecture of
+microservices](/docs/img/architecture-diagram.png)](/docs/img/architecture-diagram.png)
+
 # Configuration
 
 You need to specify environment variables:
