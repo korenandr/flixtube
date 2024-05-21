@@ -32,7 +32,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /api/live
-            port: 4000
+            port: 4002
           initialDelaySeconds: 5
           periodSeconds: 10
 ---
