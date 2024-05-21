@@ -47,15 +47,15 @@ You need to install eksctl on your development computer. Also you need to have I
 
    ```
    NAME                                     READY   STATUS    RESTARTS   AGE
-   db-f67bfbd98-wlnvh                       1/1     Running   0          7m36s
-   gateway-7f75c46f5f-pkxkg                 1/1     Running   0          7m36s
-   history-6cc49779d-km4xm                  1/1     Running   0          7m36s
-   metadata-56d4fc6cbb-992gk                1/1     Running   0          7m36s
-   rabbit-85687f5ccb-sffgq                  1/1     Running   0          7m36s
-   recommendations-7b7c7c7df6-wg6rw         1/1     Running   0          7m36s
-   video-streaming-58db654b4-2nvsx          1/1     Running   0          7m36s
-   videos-storage-5fd5d8c96f-2k6mh          1/1     Running   0          7m36s
-   videos-uploader-6dc5b8c4dc-cth4h         1/1     Running   0          7m36s
+   db-f67bfbd98-wlnvh                       1/1     Running   0          2m48s
+   gateway-7f75c46f5f-pkxkg                 1/1     Running   0          2m48s
+   history-6cc49779d-km4xm                  1/1     Running   0          2m48s
+   metadata-56d4fc6cbb-992gk                1/1     Running   0          2m48s
+   rabbit-85687f5ccb-sffgq                  1/1     Running   0          2m48s
+   recommendations-7b7c7c7df6-wg6rw         1/1     Running   0          2m48s
+   video-streaming-58db654b4-2nvsx          1/1     Running   0          2m48s
+   videos-storage-5fd5d8c96f-2k6mh          1/1     Running   0          2m48s
+   videos-uploader-6dc5b8c4dc-cth4h         1/1     Running   0          2m48s
    ```
 
 6. Check your external ip address.
@@ -63,6 +63,8 @@ You need to install eksctl on your development computer. Also you need to have I
     ```bash
     kubectl describe ingress -n flixtube
     ```
+
+7. Point your browser at that ip address http://<your external ip address>
 
 ## Clean up
 
