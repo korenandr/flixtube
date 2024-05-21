@@ -81,15 +81,19 @@ describe("history microservice", () => {
 
         await startMicroservice("mongodb://localhost:27017", "metadata-test", "rabbit", 3000);
 
-        expect(mockListenFn.mock.calls.length).toEqual(1);     // Check only 1 call to 'listen'.
-        expect(mockListenFn.mock.calls[0][0]).toEqual(3000);   // Check for port 3000.
+        expect(mockListenFn.mock.calls.length).toEqual(1);
+        expect(mockListenFn.mock.calls[0][0]).toEqual(3000);
+
+        expect(mockGetFn.mock.calls.length).toEqual(2);
+        expect(mockGetFn.mock.calls[0][0]).toEqual('/api/live');
+        expect(mockGetFn.mock.calls[1][0]).toEqual('/api/history');
     });
 
-    test("/history route is handled", async () => {
+    test("/api/history route is handled", async () => {
         
         await startMicroservice("mongodb://localhost:27017", "metadata-test", "rabbit", 3000);
 
-        const historyRoute = mockGetFn.mock.calls[0][0];
-        expect(historyRoute).toEqual("/history");
+        const apiHistoryRoute = mockGetFn.mock.calls[1][0];
+        expect(apiHistoryRoute).toEqual("/api/history");
     });
 });

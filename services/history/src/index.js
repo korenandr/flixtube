@@ -75,9 +75,16 @@ async function startMicroservice(dbHost, dbName, rabbitHost, port) {
     });
 
     //
+    // HTTP GET route we can use to check if the service is handling requests.
+    //
+    app.get("/api/live", (req, res) => {
+        res.sendStatus(200);
+    });
+
+    //
     // HTTP GET route to retrieve video viewing history.
     //
-    app.get("/history", async (req, res) => {
+    app.get("/api/history", async (req, res) => {
         const skip = parseInt(req.query.skip);
         const limit = parseInt(req.query.limit);
         const history = await historyCollection.find()
