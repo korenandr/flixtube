@@ -37,10 +37,37 @@ describe("gateway microservice", () => {
         
         await startMicroservice(3000);
 
-        expect(mockListenFn.mock.calls.length).toEqual(1);     // Check only 1 call to 'listen'.
-        expect(mockListenFn.mock.calls[0][0]).toEqual(3000);   // Check for port 3000.
+        expect(mockListenFn.mock.calls.length).toEqual(1);
+        expect(mockListenFn.mock.calls[0][0]).toEqual(3000);
+
+        expect(mockGetFn.mock.calls.length).toEqual(6);
+        expect(mockGetFn.mock.calls[0][0]).toEqual('/');
+        expect(mockGetFn.mock.calls[1][0]).toEqual('/video');
+        expect(mockGetFn.mock.calls[2][0]).toEqual('/upload');
+        expect(mockGetFn.mock.calls[3][0]).toEqual('/history');
+        expect(mockGetFn.mock.calls[4][0]).toEqual('/api/live');
+        expect(mockGetFn.mock.calls[5][0]).toEqual('/api/video');
+
+        expect(mockPostFn.mock.calls.length).toEqual(1);
+        expect(mockPostFn.mock.calls[0][0]).toEqual('/api/upload');
     });
 
-    // ... more tests go here ...
+    test("microservice`s handler /api/live returns 200", async () => {
+        
+        await startMicroservice(3000);
+
+        const mockRequest = {};
+        const mockSendStatusFn = jest.fn();
+        const mockResponse = {
+            sendStatus: mockSendStatusFn
+        };
+
+        expect(mockGetFn.mock.calls[4][0]).toEqual('/api/live');
+        const apiLiveRouteHandler = mockGetFn.mock.calls[4][1];
+        apiLiveRouteHandler(mockRequest, mockResponse);
+
+        expect(mockSendStatusFn.mock.calls.length).toEqual(1);
+        expect(mockSendStatusFn.mock.calls[0][0]).toEqual(200);
+    });
 
 });
