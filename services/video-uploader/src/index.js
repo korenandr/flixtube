@@ -27,9 +27,16 @@ async function startMicroservice(rabbitHost, port) {
     const app = express();
 
     //
+    // HTTP GET route we can use to check if the service is handling requests.
+    //
+    app.get("/api/live", (req, res) => {
+        res.sendStatus(200);
+    });
+
+    //
     // Route for uploading videos.
     //
-    app.post("/upload", async (req, res) => {
+    app.post("/api/upload", async (req, res) => {
 
         const fileName = req.headers["file-name"];
         const videoId = new mongodb.ObjectId(); // Creates a new unique ID for the video.

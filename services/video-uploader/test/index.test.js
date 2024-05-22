@@ -6,12 +6,14 @@ describe("video-uploader microservice", () => {
     //
 
     const mockListenFn = jest.fn((port, callback) => callback());
+    const mockGetFn = jest.fn();
     const mockPostFn = jest.fn();
 
     jest.doMock("express", () => { // Mock the Express module.
         const express = () => { // The Express module is a factory function that creates an Express app object.
             return { // Mock Express app object.
                 listen: mockListenFn, // Mock listen function.
+                get: mockGetFn, // Mock get function.
                 post: mockPostFn, // Mock post function.
                 use: () => {}, // Mock use function.
                 
@@ -52,14 +54,12 @@ describe("video-uploader microservice", () => {
 
         expect(mockListenFn.mock.calls.length).toEqual(1);     // Check only 1 call to 'listen'.
         expect(mockListenFn.mock.calls[0][0]).toEqual(3000);   // Check for port 3000.
-    });
 
-    test("/upload route is handled", async () => {
-        
-        await startMicroservice("rabbit", 3000);
+        expect(mockGetFn.mock.calls.length).toEqual(1);
+        expect(mockGetFn.mock.calls[0][0]).toEqual('/api/live');
 
-        const uploadRoute = mockPostFn.mock.calls[0][0];
-        expect(uploadRoute).toEqual("/upload");
+        expect(mockPostFn.mock.calls.length).toEqual(1);
+        expect(mockPostFn.mock.calls[0][0]).toEqual("/api/upload");
     });
 
     // ... more tests go here ...

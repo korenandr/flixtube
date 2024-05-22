@@ -91,7 +91,7 @@ async function startMicroservice(port) {
 
         const response = await axios({ // Forwards the request to the video-uploader microservice.
             method: "POST",
-            url: "http://video-uploader/upload", 
+            url: "http://video-uploader/api/upload", 
             data: req, 
             responseType: "stream",
             headers: {
