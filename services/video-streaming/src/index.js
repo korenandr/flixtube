@@ -34,8 +34,15 @@ async function startMicroservice(dbHost, dbName, videoStorageHost, videoStorageP
     const videosCollection = db.collection("videos");
     
     const app = express();
+
+    //
+    // HTTP GET route we can use to check if the service is handling requests.
+    //
+    app.get("/api/live", (req, res) => {
+        res.sendStatus(200);
+    });
         
-    app.get("/video", async (req, res) => {
+    app.get("/api/video", async (req, res) => {
         const videoId = new mongodb.ObjectId(req.query.id);
         const videoRecord = await videosCollection.findOne({ _id: videoId });
         if (!videoRecord) {

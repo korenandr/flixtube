@@ -76,16 +76,12 @@ describe("video-streaming microservice", () => {
         
         await startMicroservice("mongodb://localhost:27017", "metadata-test", "videos-storage", 4000, "rabbit", 3000);
 
-        expect(mockListenFn.mock.calls.length).toEqual(1);     // Check only 1 call to 'listen'.
-        expect(mockListenFn.mock.calls[0][0]).toEqual(3000);   // Check for port 3000.
-    });
+        expect(mockListenFn.mock.calls.length).toEqual(1);
+        expect(mockListenFn.mock.calls[0][0]).toEqual(3000);
 
-    test("/video route is handled", async () => {
-        
-        await startMicroservice("mongodb://localhost:27017", "metadata-test", "videos-storage", 4000, "rabbit", 3000);
-
-        const videoRoute = mockGetFn.mock.calls[0][0];
-        expect(videoRoute).toEqual("/video");
+        expect(mockGetFn.mock.calls.length).toEqual(2);
+        expect(mockGetFn.mock.calls[0][0]).toEqual('/api/live');
+        expect(mockGetFn.mock.calls[1][0]).toEqual('/api/video');
     });
 
     // ... more tests go here ...
