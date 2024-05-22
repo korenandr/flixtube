@@ -86,6 +86,6 @@ describe("recommendations microservice", () => {
         expect(mockListenFn.mock.calls[0][0]).toEqual(3000);
 
         expect(mockGetFn.mock.calls.length).toEqual(1);
-        expect(mockGetFn.mock.calls[0][0]).toEqual('/live');
+        expect(mockGetFn.mock.calls[0][0]).toEqual('/api/live');
     });
 });

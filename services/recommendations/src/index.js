@@ -82,7 +82,7 @@ async function startMicroservice(dbHost, dbName, rabbitHost, port) {
     //
     // HTTP GET route we can use to check if the service is handling requests.
     //
-    app.get("/live", (req, res) => {
+    app.get("/api/live", (req, res) => {
         res.sendStatus(200);
     });
 
