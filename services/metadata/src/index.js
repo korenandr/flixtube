@@ -18,9 +18,16 @@ async function startMicroservice(dbHost, dbName, rabbitHost, port) {
 
 
     //
+    // HTTP GET route we can use to check if the service is handling requests.
+    //
+    app.get("/api/live", (req, res) => {
+        res.sendStatus(200);
+    });
+
+    //
     // HTTP GET route to retrieve list of videos from the database.
     //
-    app.get("/videos", async (req, res) => {
+    app.get("/api/videos", async (req, res) => {
         const videos = await videosCollection.find().toArray(); // In a real application this should be paginated.
         res.json({
             videos: videos
@@ -30,7 +37,7 @@ async function startMicroservice(dbHost, dbName, rabbitHost, port) {
     //
     // HTTP GET route to retreive details for a particular video.
     //
-    app.get("/video", async (req, res) => {
+    app.get("/api/video", async (req, res) => {
         const videoId = new mongodb.ObjectId(req.query.id);
         const video = await videosCollection.findOne({ _id: videoId }) // Returns a promise so we can await the result in the test.
         if (!video) {

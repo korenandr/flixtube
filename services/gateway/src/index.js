@@ -19,7 +19,7 @@ async function startMicroservice(port) {
     app.get("/", async (req, res) => {
 
         // Retreives the list of videos from the metadata microservice.
-        const videosResponse = await axios.get("http://metadata/videos");
+        const videosResponse = await axios.get("http://metadata/api/videos");
 
         // Renders the video list for display in the browser.
         res.render("video-list", { videos: videosResponse.data.videos });
@@ -33,7 +33,7 @@ async function startMicroservice(port) {
         const videoId = req.query.id;
 
         // Retreives the data from the metadata microservice.
-        const videoResponse = await axios.get(`http://metadata/video?id=${videoId}`);
+        const videoResponse = await axios.get(`http://metadata/api/video?id=${videoId}`);
 
         const video = {
             metadata: videoResponse.data.video,
