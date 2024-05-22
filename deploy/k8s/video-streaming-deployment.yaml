@@ -15,7 +15,7 @@ spec:
     spec:
       containers: 
       - name: video-streaming
-        image: crazydanila/video-streaming:e642902dfb94b326095d40d103fd9ea1369dd739
+        image: crazydanila/video-streaming:a783ed6f84d79caee8e5782b9e9f06e6b7e22853
         imagePullPolicy: IfNotPresent
         ports:
         - name: streaming-port
