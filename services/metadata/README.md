@@ -8,13 +8,13 @@ There is two different types os tests you can launch:
 
 Unit tests:
 
-    ```bash
-    npm run test:unit
-    ```
+```bash
+npm run test:unit
+```
 
 Integration tests:
 
-    ```bash
-    docker compose up -d
-    npm run test:integration
-    ```
+```bash
+docker compose up -d --wait
+npm run test:integration
+```
