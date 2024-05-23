@@ -36,7 +36,7 @@ jobs:
       run: npm run test:unit
     
     - name: "Set up integration tests environment"
-      run: docker compose -f docker-compose.yml up -d --wait
+      run: docker compose -f docker-compose.yaml up -d --wait
     
     - name: Run Integration Tests
       run: npm run test:integration
