@@ -6,8 +6,8 @@
     "scripts": {
         "start": "node ./src/index.js",
         "start:dev": "nodemon ./src/index.js",
-        "test:unit": "jest --testPathPattern=unit.test.js$",
-        "test:integration": "jest --testPathPattern=integration.test.js$"
+        "test:unit": "jest -c jest.config.unit.js",
+        "test:integration": "jest -c jest.config.integration.js"
     },
     "keywords": [],
     "author": "",
