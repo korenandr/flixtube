@@ -1,5 +1,5 @@
 
-describe("metadata microservice", () => {
+describe("metadata microservice unit tests", () => {
 
     //
     // Setup mocks.
@@ -89,6 +89,24 @@ describe("metadata microservice", () => {
         expect(mockGetFn.mock.calls[0][0]).toEqual('/api/live');
         expect(mockGetFn.mock.calls[1][0]).toEqual('/api/videos');
         expect(mockGetFn.mock.calls[2][0]).toEqual('/api/video');
+    });
+
+    test("microservice`s handler /api/live returns 200", async () => {
+
+        await startMicroservice("mongodb://localhost:27017", "metadata-test", "rabbit", 3000);
+        
+        const mockRequest = {};
+        const mockSendStatusFn = jest.fn();
+        const mockResponse = {
+            sendStatus: mockSendStatusFn
+        };
+
+        expect(mockGetFn.mock.calls[0][0]).toEqual('/api/live');
+        const apiLiveRouteHandler = mockGetFn.mock.calls[0][1];
+        apiLiveRouteHandler(mockRequest, mockResponse);
+
+        expect(mockSendStatusFn).toHaveBeenCalledTimes(1);
+        expect(mockSendStatusFn.mock.calls[0][0]).toEqual(200);
     });
 
     test("/api/videos route retreives data via videos collection", async () => {
