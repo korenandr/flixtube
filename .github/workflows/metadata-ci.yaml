@@ -19,6 +19,9 @@ jobs:
     
     - uses: actions/checkout@v4
 
+    - name: "Set up integration tests environment"
+      run: docker compose -f docker-compose.yaml up -d --wait
+
     - name: Use Node.js
       uses: actions/setup-node@v4
       with:
@@ -34,9 +37,6 @@ jobs:
 
     - name: Run Unit Tests
       run: npm run test:unit
-    
-    - name: "Set up integration tests environment"
-      run: docker compose -f docker-compose.yaml up -d --wait
     
     - name: Run Integration Tests
       run: npm run test:integration
