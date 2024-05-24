@@ -13,6 +13,8 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+    - name: "Set up e2e tests environment"
+      run: docker compose -f docker-compose-dev.yml up -d --wait
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
