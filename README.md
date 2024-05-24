@@ -1,3 +1,5 @@
+[![Continuous Integration: E2E tests](https://github.com/korenandr/flixtube/actions/workflows/playwright.yml/badge.svg)](https://github.com/korenandr/flixtube/actions/workflows/playwright.yml)
+
 FlixTube is a cloud-native demo application. The application is a web-based app where users can watch videos, upload them to the cloud, and see history of watched videos.
 
 If you’re using this demo, please **★Star** this repository to show your interest!
