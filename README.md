@@ -10,15 +10,16 @@ If you’re using this demo, please **★Star** this repository to show your int
 microservices](/docs/img/architecture-diagram.png)](/docs/img/architecture-diagram.png)
 
 
-| Service                                              | Description                                                                                 |
-| ---------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| [gateway](/services/gateway)                         | Exposes an HTTP server to serve the website. Forward requests to other microservices.       |
-| [history](/services/history)                         | Stores the history information about watched videos.                                        |
-| [metadata](/services/metadata)                       | Stores the metadata about uploaded videos.                                                  |
-| [recommendations](/services/recommendations)         | Recommends to watch other videos based on what's been viewed before (not supported yet).    |
-| [video-streaming](/services/video-streaming)         | Provides video stream from storage to user.                                                 |
-| [video-uploader](/services/video-uploader)           | Uploads videos to the given storage.                                                        |
-| [videos-storage](/services/videos-storage)           | Saves or retrieves videos to/from storage.                                                  |
+| Service                                              | Description                                                                                         |
+| ---------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [db-fixture-rest-api](/services/db-fixture-rest-api) | A REST API for loading and unloading MongoDB database fixtures. (Use this in your automated test).  |
+| [gateway](/services/gateway)                         | Exposes an HTTP server to serve the website. Forward requests to other microservices.               |
+| [history](/services/history)                         | Stores the history information about watched videos.                                                |
+| [metadata](/services/metadata)                       | Stores the metadata about uploaded videos.                                                          |
+| [recommendations](/services/recommendations)         | Recommends to watch other videos based on what's been viewed before (not supported yet).            |
+| [video-streaming](/services/video-streaming)         | Provides video stream from storage to user.                                                         |
+| [video-uploader](/services/video-uploader)           | Uploads videos to the given storage.                                                                |
+| [videos-storage](/services/videos-storage)           | Saves or retrieves videos to/from storage.                                                          |
 
 ## Deployment options
 

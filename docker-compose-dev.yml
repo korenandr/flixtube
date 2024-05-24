@@ -15,7 +15,26 @@ services:
     ports:
      - "27017:27017"
     restart: always
-  
+
+  # Service for loading database fixtures.
+  db-fixture-rest-api:
+    image: db-fixture-rest-api
+    build: 
+      context: ./services/db-fixture-rest-api
+      dockerfile: Dockerfile
+    container_name: db-fixture-rest-api
+    ports:
+     - "9000:80"
+    environment:
+     - PORT=80
+     - DBHOST=mongodb://db:27017
+     - FIXTURES_DIR=fixtures
+    volumes:
+     - ./services/db-fixture-rest-api/fixtures:/usr/src/app/fixtures:z
+    depends_on:
+      - db
+    restart: always
+
   gateway:
     image: gateway
     build: 
@@ -32,7 +51,7 @@ services:
       - PORT=80
       - NODE_ENV=development
     restart: "no"
-  
+
   videos-storage:
     image: videos-storage
     build: 
@@ -52,7 +71,7 @@ services:
       - STORAGE_SECRET_ACCESS_KEY=${STORAGE_SECRET_ACCESS_KEY}
       - NODE_ENV=development
     restart: "no"
-  
+
   history:
     image: history
     build: 
@@ -74,7 +93,7 @@ services:
       - db
       - rabbit
     restart: "no"
-  
+
   recommendations:
     image: recommendations
     build: 
@@ -96,7 +115,7 @@ services:
       - db
       - rabbit
     restart: "no"
-  
+
   metadata:
     image: metadata
     build: 
@@ -118,7 +137,7 @@ services:
       - db
       - rabbit
     restart: "no"
-  
+
   video-uploader:
     image: video-uploader
     build: 
@@ -138,7 +157,7 @@ services:
     depends_on:
       - rabbit
     restart: "no"
-  
+
   video-streaming:
     image: video-streaming
     build: 

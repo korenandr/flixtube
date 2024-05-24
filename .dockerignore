@@ -2,5 +2,10 @@
 .github
 deploy
 docs
+node_modules
+playwright-report
+test-results
+tests
 LICENSE
+playwright.config.ts
 README.md
