@@ -15,13 +15,13 @@ microservices](/docs/img/architecture-diagram.png)](/docs/img/architecture-diagr
 | Service                                              | Description                                                                                         |
 | ---------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | [db-fixture-rest-api](/services/db-fixture-rest-api) | A REST API for loading and unloading MongoDB database fixtures. (Use this in your automated test).  |
-| [gateway](/services/gateway)                         | Exposes an HTTP server to serve the website. Forward requests to other microservices.               |
-| [history](/services/history)                         | Stores the history information about watched videos.                                                |
-| [metadata](/services/metadata)                       | Stores the metadata about uploaded videos.                                                          |
-| [recommendations](/services/recommendations)         | Recommends to watch other videos based on what's been viewed before (not supported yet).            |
-| [video-streaming](/services/video-streaming)         | Provides video stream from storage to user.                                                         |
-| [video-uploader](/services/video-uploader)           | Uploads videos to the given storage.                                                                |
-| [videos-storage](/services/videos-storage)           | Saves or retrieves videos to/from storage.                                                          |
+| [gateway](/services/gateway)                         | The entry point to the application that serves the frontend and provides a REST API.                |
+| [history](/services/history)                         | Records the user’s viewing history.                                                                 |
+| [metadata](/services/metadata)                       | Records details and metadata about each video.                                                      |
+| [recommendations](/services/recommendations)         | Makes recommendations to watch other videos based on what's been viewed before (not supported yet). |
+| [video-streaming](/services/video-streaming)         | Streams videos from storage to be watched by the user.                                              |
+| [video-uploader](/services/video-uploader)           | Orchestrates upload of videos to storage.                                                           |
+| [videos-storage](/services/videos-storage)           | Stores and retrieves videos using external cloud storage.                                           |
 
 ## Deployment options
 
