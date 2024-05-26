@@ -33,8 +33,8 @@ You need to install docker and docker compose on your development computer. Also
 
 ## Clean up
 
-1. Stop this app.
+1. Stop this app and clean resources.
 
     ```bash
-    docker compose -f docker-compose-prod.yml down
+    docker compose -f docker-compose-prod.yml down --volumes
     ```
