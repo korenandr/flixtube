@@ -45,7 +45,23 @@ function startMicroservice(bucketName, accessKeyId, secretAccessKey, regionName,
     // HTTP POST route to upload a video to AWS storage.
     //
     app.post('/api/upload', (req, res) => {
-        res.sendStatus(200);
+
+        const s3Params = {
+            Bucket: bucketName,
+            Key: req.headers.id,
+            Body: req,
+            ContentType: req.headers["content-type"]
+        }
+
+        s3.upload(s3Params, (err, data) => {
+            if (err) {
+                console.error('Error uploading video.');
+                console.error(err && err.stack || err);
+                res.status(500).send('An error occurred while uploading the video');
+            } else {
+                res.sendStatus(200);
+            }
+        })
     });
 
     // Other handlers go here.
