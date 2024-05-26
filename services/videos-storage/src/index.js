@@ -28,11 +28,11 @@ function startMicroservice(bucketName, accessKeyId, secretAccessKey, regionName,
 
     // Define a route to stream the video
     app.get('/api/video', (req, res) => {
-        const videoPath = req.query.path;
-        console.log(`Streaming video from path ${videoPath}.`);
+        const videoId = req.query.id;
+        console.log(`Streaming video with id ${videoId}.`);
 
         // Create a read stream from S3 object
-        const stream = s3.getObject({ Bucket: bucketName, Key: videoPath }).createReadStream();
+        const stream = s3.getObject({ Bucket: bucketName, Key: videoId }).createReadStream();
 
         // Set the appropriate content type for the video
         res.setHeader('Content-Type', 'video/mp4');

@@ -98,16 +98,16 @@ describe("videos-storage microservice", () => {
         });
     });
 
-    test('It should respond with a stream for a valid video path', async () => {
+    test('It should respond with a stream for a valid video id', async () => {
 
-        const videoPath = 'test.mp4';
+        const videoId = '66535cf6bf1b05822ea84809';
         const storageBucketName = 'STORAGE_BUCKET_NAME';
 
         startMicroservice(storageBucketName, "STORAGE_ACCESS_KEY_ID", "STORAGE_SECRET_ACCESS_KEY", "STORAGE_REGION_NAME", 3000);
 
         const mockRequest = {
             query: {
-                path: videoPath,
+                id: videoId,
             },
         };
         const mockResponse = {
@@ -121,7 +121,7 @@ describe("videos-storage microservice", () => {
         expect(mockGetObjectFn).toHaveBeenCalledTimes(1);
         expect(mockGetObjectFn).toHaveBeenCalledWith({
             Bucket: storageBucketName,
-            Key: videoPath,
+            Key: videoId,
         });
 
         expect(mockResponse.setHeader).toHaveBeenCalledWith('Content-Type', 'video/mp4');
