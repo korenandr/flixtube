@@ -26,7 +26,7 @@ You need to install docker and docker compose on your development computer. Also
 3. Launch this app (inside root directory).
 
     ```bash
-    docker compose -f docker-compose-prod.yml up --build
+    docker compose -f docker-compose-prod.yaml up --build
     ```
 
 4. Point your browser at http://localhost:4000
@@ -36,5 +36,5 @@ You need to install docker and docker compose on your development computer. Also
 1. Stop this app and clean resources.
 
     ```bash
-    docker compose -f docker-compose-prod.yml down --volumes
+    docker compose -f docker-compose-prod.yaml down --volumes
     ```

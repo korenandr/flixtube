@@ -14,7 +14,7 @@ jobs:
       with:
         node-version: lts/*
     - name: "Set up e2e tests environment"
-      run: docker compose -f docker-compose-dev.yml up -d --wait
+      run: docker compose -f docker-compose-dev.yaml up -d --wait
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
