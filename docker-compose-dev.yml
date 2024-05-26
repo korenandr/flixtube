@@ -52,23 +52,52 @@ services:
       - NODE_ENV=development
     restart: "no"
 
+  # 
+  # Uncomment this service to enable cloud storage.
+  #
+  # videos-storage:
+  #   image: videos-storage
+  #  build: 
+  #    context: ./services/videos-storage
+  #    dockerfile: Dockerfile-dev
+  #  container_name: videos-storage
+  #  volumes:
+  #    - /tmp/videos-storage/npm-cache:/root/.npm:z
+  #    - ./services/videos-storage/src:/usr/src/app/src:z
+  #  ports:
+  #   - "4001:80"
+  #  environment:
+  #    - PORT=80
+  #    - STORAGE_BUCKET_NAME=${STORAGE_BUCKET_NAME}
+  #    - STORAGE_REGION_NAME=${STORAGE_REGION_NAME}
+  #    - STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID}
+  #    - STORAGE_SECRET_ACCESS_KEY=${STORAGE_SECRET_ACCESS_KEY}
+  #    - NODE_ENV=development
+  #  restart: "no"
+
+
+  #
+  # This is the local version of storage.
+  # Instead of storing files in the cloud it stores files on the
+  # local machine.
+  #
+  # This is "mock" for the storage microservices to make
+  # local testing easier.
+  #
   videos-storage:
-    image: videos-storage
+    image: mock-storage
     build: 
-      context: ./services/videos-storage
-      dockerfile: Dockerfile-dev
+      context: ./services/mock-storage
+      dockerfile: Dockerfile
     container_name: videos-storage
     volumes:
-      - /tmp/videos-storage/npm-cache:/root/.npm:z
-      - ./services/videos-storage/src:/usr/src/app/src:z
+      - /tmp/mock-storage/npm-cache:/root/.npm:z
+      - ./services/mock-storage/src:/usr/src/app/src:z
+      - ./services/mock-storage/storage:/usr/src/app/storage:z
     ports:
      - "4001:80"
     environment:
       - PORT=80
-      - STORAGE_BUCKET_NAME=${STORAGE_BUCKET_NAME}
-      - STORAGE_REGION_NAME=${STORAGE_REGION_NAME}
-      - STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID}
-      - STORAGE_SECRET_ACCESS_KEY=${STORAGE_SECRET_ACCESS_KEY}
       - NODE_ENV=development
     restart: "no"
 
@@ -175,6 +204,5 @@ services:
       - RABBIT=amqp://guest:guest@rabbit:5672
       - NODE_ENV=development
     depends_on:
-      - db
       - rabbit
     restart: "no"

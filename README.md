@@ -18,6 +18,7 @@ microservices](/docs/img/architecture-diagram.png)](/docs/img/architecture-diagr
 | [gateway](/services/gateway)                         | The entry point to the application that serves the frontend and provides a REST API.                |
 | [history](/services/history)                         | Records the user’s viewing history.                                                                 |
 | [metadata](/services/metadata)                       | Records details and metadata about each video.                                                      |
+| [mock-storage](/services/mock-storage)               | Saves files locally (for testing purpose only).                                                     |
 | [recommendations](/services/recommendations)         | Makes recommendations to watch other videos based on what's been viewed before (not supported yet). |
 | [video-streaming](/services/video-streaming)         | Streams videos from storage to be watched by the user.                                              |
 | [video-uploader](/services/video-uploader)           | Orchestrates upload of videos to storage.                                                           |
