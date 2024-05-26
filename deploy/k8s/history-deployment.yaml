@@ -15,7 +15,7 @@ spec:
     spec:
       containers: 
       - name: history
-        image: crazydanila/history:a783ed6f84d79caee8e5782b9e9f06e6b7e22853
+        image: crazydanila/history:df54efa99990154a7956c317554fdd74fffcaba1
         imagePullPolicy: IfNotPresent
         ports:
         - name: history-port
