@@ -21,31 +21,6 @@ describe("video-streaming microservice", () => {
         return express;
     });
 
-    const mockVideosCollection = { // Mock Mongodb collection.
-    };
-
-    const mockDb = { // Mock Mongodb database.
-        collection: () => {
-            return mockVideosCollection;
-        }
-    };
-
-    const mockMongoClient = { // Mock Mongodb client object.
-        db: () => {
-            return mockDb;
-        }
-    };
-    
-    jest.doMock("mongodb", () => { // Mock the Mongodb module.
-        return { // Mock Mongodb module.
-            MongoClient: { // Mock MongoClient.
-                connect: async () => { // Mock connect function.
-                    return mockMongoClient;
-                }
-            }
-        };
-    });
-
     jest.doMock("amqplib", () => { // Mock the amqplib (RabbitMQ) library.
         return { // Returns a mock version of the library.
             connect: async () => { // Mock function to connect to RabbitMQ.
@@ -74,7 +49,7 @@ describe("video-streaming microservice", () => {
     
     test("microservice starts web server on startup", async () => {
         
-        await startMicroservice("mongodb://localhost:27017", "metadata-test", "videos-storage", 4000, "rabbit", 3000);
+        await startMicroservice("rabbit", 3000);
 
         expect(mockListenFn.mock.calls.length).toEqual(1);
         expect(mockListenFn.mock.calls[0][0]).toEqual(3000);

@@ -25,14 +25,6 @@ spec:
           value: "4006"
         - name: RABBIT
           value: "amqp://guest:guest@rabbit:5672"
-        - name: DBHOST
-          value: "mongodb://db:27017"
-        - name: DBNAME
-          value: "video-streaming"
-        - name: VIDEOS_STORAGE_HOST
-          value: "video-storage"
-        - name: VIDEOS_STORAGE_PORT
-          value: "80"
         readinessProbe:
           httpGet:
             path: /api/live
