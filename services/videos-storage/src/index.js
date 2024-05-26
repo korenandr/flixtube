@@ -3,17 +3,6 @@ const express = require('express');
 
 
 //
-// Broadcasts the "video-uploaded" message to other microservices.
-//
-function broadcastVideoUploadedMessage(messageChannel, videoMetadata) {
-    console.log(`Publishing message on "video-uploaded" exchange.`);
-        
-    const msg = { video: videoMetadata };
-    const jsonMsg = JSON.stringify(msg);
-    messageChannel.publish("video-uploaded", "", Buffer.from(jsonMsg)); // Publishes the message to the "video-uploaded" exchange.
-}
-
-//
 // Starts the microservice.
 //
 function startMicroservice(bucketName, accessKeyId, secretAccessKey, regionName, port) {
