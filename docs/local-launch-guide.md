@@ -14,7 +14,7 @@ You need to install docker and docker compose on your development computer. Also
     git clone https://github.com/korenandr/flixtube.git
     ```
 
-2. Specify environment variables:
+2. Specify environment variables (for production mode only):
 
     ```bash
     EXPORT STORAGE_BUCKET_NAME=<your aws s3 bucket name>
@@ -26,7 +26,7 @@ You need to install docker and docker compose on your development computer. Also
 3. Launch this app (inside root directory).
 
     ```bash
-    docker compose -f docker-compose-prod.yaml up --build
+    docker compose -f docker-compose-dev.yaml up --build
     ```
 
 4. Point your browser at http://localhost:4000
@@ -36,5 +36,5 @@ You need to install docker and docker compose on your development computer. Also
 1. Stop this app and clean resources.
 
     ```bash
-    docker compose -f docker-compose-prod.yaml down --volumes
+    docker compose -f docker-compose-dev.yaml down --volumes
     ```
