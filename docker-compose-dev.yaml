@@ -32,7 +32,8 @@ services:
      - DBHOST=mongodb://db:27017
      - FIXTURES_DIR=fixtures
     depends_on:
-      - db
+      db:
+        condition: service_started
     restart: always
 
   gateway:
@@ -124,8 +125,10 @@ services:
       - DBNAME=history
       - NODE_ENV=development
     depends_on:
-      - db
-      - rabbit
+      db:
+        condition: service_started
+      rabbit:
+        condition: service_started
     restart: "no"
 
   recommendations:
@@ -146,8 +149,10 @@ services:
       - DBNAME=recommendations
       - NODE_ENV=development
     depends_on:
-      - db
-      - rabbit
+      db:
+        condition: service_started
+      rabbit:
+        condition: service_started
     restart: "no"
 
   metadata:
@@ -168,8 +173,10 @@ services:
       - DBNAME=metadata
       - NODE_ENV=development
     depends_on:
-      - db
-      - rabbit
+      db:
+        condition: service_started
+      rabbit:
+        condition: service_started
     restart: "no"
 
   video-uploader:
@@ -189,8 +196,10 @@ services:
       - RABBIT=amqp://guest:guest@rabbit:5672
       - NODE_ENV=development
     depends_on:
-      - rabbit
-      - videos-storage
+      rabbit:
+        condition: service_started
+      videos-storage:
+        condition: service_healthy
     restart: "no"
 
   video-streaming:
@@ -210,6 +219,8 @@ services:
       - RABBIT=amqp://guest:guest@rabbit:5672
       - NODE_ENV=development
     depends_on:
-      - rabbit
-      - videos-storage
+      rabbit:
+        condition: service_started
+      videos-storage:
+        condition: service_healthy
     restart: "no"
