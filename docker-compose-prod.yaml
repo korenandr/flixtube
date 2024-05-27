@@ -130,7 +130,7 @@ services:
       rabbit:
         condition: service_healthy
       videos-storage:
-        condition: service_healthy
+        condition: service_started
     restart: "no"
   
   video-streaming:
@@ -148,5 +148,5 @@ services:
       rabbit:
         condition: service_healthy
       videos-storage:
-        condition: service_healthy
+        condition: service_started
     restart: "no"
