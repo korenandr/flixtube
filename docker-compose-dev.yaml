@@ -23,14 +23,14 @@ services:
       context: ./services/db-fixture-rest-api
       dockerfile: Dockerfile
     container_name: db-fixture-rest-api
+    volumes:
+     - ./services/db-fixture-rest-api/fixtures:/usr/src/app/fixtures:z
     ports:
      - "9000:80"
     environment:
      - PORT=80
      - DBHOST=mongodb://db:27017
      - FIXTURES_DIR=fixtures
-    volumes:
-     - ./services/db-fixture-rest-api/fixtures:/usr/src/app/fixtures:z
     depends_on:
       - db
     restart: always
@@ -50,6 +50,11 @@ services:
     environment:
       - PORT=80
       - NODE_ENV=development
+    depends_on:
+      - history
+      - metadata
+      - video-streaming
+      - video-uploader
     restart: "no"
 
   # 
@@ -185,6 +190,7 @@ services:
       - NODE_ENV=development
     depends_on:
       - rabbit
+      - videos-storage
     restart: "no"
 
   video-streaming:
@@ -205,4 +211,5 @@ services:
       - NODE_ENV=development
     depends_on:
       - rabbit
+      - videos-storage
     restart: "no"
