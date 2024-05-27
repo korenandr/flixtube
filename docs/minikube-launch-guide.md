@@ -33,7 +33,7 @@ You need to install minikube on your development computer. Also you need to have
 
     ```bash
     kubectl apply -f deploy/k8s/namespace.yaml
-    kubectl create secret generic aws-keys --from-literal=STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID} --from-literal=STORAGE_SECRET_ACCESS_KEY={STORAGE_SECRET_ACCESS_KEY}
+    kubectl create secret generic aws-keys --from-literal=STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID} --from-literal=STORAGE_SECRET_ACCESS_KEY=${STORAGE_SECRET_ACCESS_KEY}
     kubectl apply -f deploy/k8s
     ```
     
