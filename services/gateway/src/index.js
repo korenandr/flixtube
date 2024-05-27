@@ -75,6 +75,8 @@ async function startMicroservice(port) {
     //
     app.get("/api/video", async (req, res) => {
 
+        console.log("Get stream of video with id: ", req.query.id);
+
         const response = await axios({ // Forwards the request to the video-streaming microservice.
             method: "GET",
             url: `http://video-streaming/api/video?id=${req.query.id}`, 
@@ -88,6 +90,8 @@ async function startMicroservice(port) {
     // HTTP POST route to upload video from the user's browser.
     //
     app.post("/api/upload", async (req, res) => {
+
+        console.log(`Upload ${req.headers["content-type"]} with name ${req.headers["file-name"]}`);
 
         const response = await axios({ // Forwards the request to the video-uploader microservice.
             method: "POST",

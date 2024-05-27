@@ -53,6 +53,8 @@ function startMicroservice(bucketName, accessKeyId, secretAccessKey, regionName,
             ContentType: req.headers["content-type"]
         }
 
+        console.log(`Uploading ${s3Params.ContentType} with key ${s3Params.Key}.`);
+
         s3.upload(s3Params, (err, data) => {
             if (err) {
                 console.error('Error uploading video.');

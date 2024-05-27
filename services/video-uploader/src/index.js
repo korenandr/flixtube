@@ -40,6 +40,9 @@ async function startMicroservice(rabbitHost, port) {
 
         const fileName = req.headers["file-name"];
         const videoId = new mongodb.ObjectId(); // Creates a new unique ID for the video.
+
+        console.log(`Uploading ${req.headers["content-type"]} with name ${fileName} and id ${videoId}`);
+    
         const response = await axios({ // Forwards the request to the videos-storage microservice.
             method: "POST",
             url: "http://videos-storage/api/upload", 

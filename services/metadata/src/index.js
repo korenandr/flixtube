@@ -29,6 +29,9 @@ async function startMicroservice(dbHost, dbName, rabbitHost, port) {
     //
     app.get("/api/videos", async (req, res) => {
         const videos = await videosCollection.find().toArray(); // In a real application this should be paginated.
+
+        videos.length > 0 ? console.log(`Retreiving ${videos.length} videos`) : console.log("No videos found");
+
         res.json({
             videos: videos
         });
@@ -38,9 +41,13 @@ async function startMicroservice(dbHost, dbName, rabbitHost, port) {
     // HTTP GET route to retreive details for a particular video.
     //
     app.get("/api/video", async (req, res) => {
+
+        console.log("Retreiving details for video with id: ", req.query.id);
+
         const videoId = new mongodb.ObjectId(req.query.id);
         const video = await videosCollection.findOne({ _id: videoId }) // Returns a promise so we can await the result in the test.
         if (!video) {
+            console.log(`Video with ${req.query.id} id not found`);
             res.sendStatus(404); // Video with the requested ID doesn't exist!
         }
         else {

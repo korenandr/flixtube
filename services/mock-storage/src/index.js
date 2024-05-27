@@ -26,6 +26,9 @@ function startMicroservice(storagePath, port) {
         try {
             const videoId = req.query.id;
             const localFilePath = path.join(storagePath, videoId);
+
+            console.log(`Streaming video with id: ${videoId} from ${localFilePath}.`);
+
             res.sendFile(localFilePath);
         } catch (error) {
             console.error("Error fetching video.");
@@ -41,6 +44,9 @@ function startMicroservice(storagePath, port) {
         try {
             const videoId = req.headers.id;
             const localFilePath = path.join(storagePath, videoId);
+
+            console.log(`Uploading video with id: ${videoId} to ${localFilePath}.`);
+
             const fileWriteStream = fs.createWriteStream(localFilePath);
             req.pipe(fileWriteStream)
                 .on("error", err => {
