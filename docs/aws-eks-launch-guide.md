@@ -23,7 +23,7 @@ You need to install eksctl on your development computer. Also you need to have I
     EXPORT STORAGE_SECRET_ACCESS_KEY=<your aws secret access key>
     ```
 
-3. Create EKS cluster.
+3. Create EKS cluster (it will take about 10 minutes).
 
     ```bash
     eksctl create cluster --name test-cluster --version 1.29 --region eu-north-1 --nodegroup-name linux-nodes --node-type t3.micro --nodes 10
@@ -33,11 +33,18 @@ You need to install eksctl on your development computer. Also you need to have I
 
     ```bash
     kubectl apply -f deploy/k8s/namespace.yaml
+    kubectl config set-context --current --namespace=flixtube
     kubectl create secret generic aws-keys --from-literal=STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID} --from-literal=STORAGE_SECRET_ACCESS_KEY=${STORAGE_SECRET_ACCESS_KEY}
     kubectl apply -f deploy/k8s
     ```
 
-5. Wait for the pods to be ready.
+5. Create Network Load Balancer (NLB) to expose the Ingress-Nginx Controller
+
+    ```bash
+    kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/aws/deploy.yaml
+    ```
+
+6. Wait for the pods to be ready.
 
     ```bash
     kubectl get pods
@@ -58,13 +65,13 @@ You need to install eksctl on your development computer. Also you need to have I
    videos-uploader-6dc5b8c4dc-cth4h         1/1     Running   0          2m48s
    ```
 
-6. Check your external ip address.
+7. Check your external ip address.
 
     ```bash
-    kubectl describe ingress -n flixtube
+    kubectl describe ingress
     ```
 
-7. Point your browser at that ip address http://<your external ip address>
+8. Wait about 10 minutes until DNS records will be updated. Than point your browser at that ip address http://<your external ip address>
 
 ## Clean up
 
