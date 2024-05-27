@@ -7,6 +7,12 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
     restart: always
 
   db:
@@ -128,7 +134,7 @@ services:
       db:
         condition: service_started
       rabbit:
-        condition: service_started
+        condition: service_healthy
     restart: "no"
 
   recommendations:
@@ -152,7 +158,7 @@ services:
       db:
         condition: service_started
       rabbit:
-        condition: service_started
+        condition: service_healthy
     restart: "no"
 
   metadata:
@@ -176,7 +182,7 @@ services:
       db:
         condition: service_started
       rabbit:
-        condition: service_started
+        condition: service_healthy
     restart: "no"
 
   video-uploader:
@@ -197,9 +203,9 @@ services:
       - NODE_ENV=development
     depends_on:
       rabbit:
-        condition: service_started
-      videos-storage:
         condition: service_healthy
+      videos-storage:
+        condition: service_started
     restart: "no"
 
   video-streaming:
@@ -220,7 +226,7 @@ services:
       - NODE_ENV=development
     depends_on:
       rabbit:
-        condition: service_started
-      videos-storage:
         condition: service_healthy
+      videos-storage:
+        condition: service_started
     restart: "no"
