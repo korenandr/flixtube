@@ -15,7 +15,7 @@ spec:
     spec:
       containers: 
       - name: videos-storage
-        image: crazydanila/videos-storage:df54efa99990154a7956c317554fdd74fffcaba1
+        image: videos-storage:v1
         imagePullPolicy: IfNotPresent
         ports:
         - name: storage-port
@@ -45,10 +45,10 @@ spec:
               key: STORAGE_SECRET_ACCESS_KEY
         resources:
           limits:
-            cpu: "0.5"
+            cpu: "1.0"
             memory: "512Mi"
           requests:
-            cpu: "0.1"
+            cpu: "0.5"
             memory: "256Mi"
         readinessProbe:
           httpGet:
