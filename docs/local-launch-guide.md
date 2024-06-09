@@ -4,7 +4,7 @@ This page walks you through the steps required to deploy the [FlixTube](https://
 
 ## Prerequisites
 
-You need to install docker and docker compose on your development computer. Also you need to have IAM AWS account with created s3 bucket.
+You need to install docker and docker compose on your development computer. Also you need to have IAM AWS account with created s3 bucket (only for production environment).
 
 ## Deploy the sample application
 
