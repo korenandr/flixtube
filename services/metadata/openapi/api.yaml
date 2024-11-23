@@ -1,0 +1,61 @@
+openapi: 3.0.3
+info:
+  title: Metadata service API
+  description: For users
+  version: "1.0.0"
+paths:
+  /api/video:
+    get:
+      summary: Get video`s metadata
+      description: Get metadata for a given video
+      parameters:
+        - name: id
+          in: query
+          description: Id of the video
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Metadata for the given video
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoMetadata'
+        "404":
+          description: Video not found
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/videos:
+    get:
+      summary: Get metadata of all videos
+      description: Get metadata for all videos
+      responses:
+        "200":
+          description: Metadata for all videos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  videos:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/VideoMetadata'
+
+components:
+  schemas:
+    VideoMetadata:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          description: Name of the video
+          example: Inception
