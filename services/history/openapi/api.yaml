@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: History service API
+  description: For users
+  version: "1.0.0"
+paths:
+  /api/history:
+    get:
+      summary: Get history of watching videos
+      description: Get history of watching videos
+      parameters:
+        - name: skip
+          in: query
+          description: Skip first elements
+          required: false
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Max number of elements to return
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: History of watched videos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  history:
+                    type: array
+                    items:
+                      type: object
