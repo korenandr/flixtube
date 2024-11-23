@@ -59,3 +59,6 @@ components:
           type: string
           description: Name of the video
           example: Inception
+      required:
+        - id
+        - name
