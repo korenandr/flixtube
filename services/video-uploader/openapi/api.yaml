@@ -1,0 +1,46 @@
+openapi: 3.0.3
+info:
+  title: Video Uploader Service API
+  description: Service for uploading videos to storage
+  version: "1.0.0"
+paths:
+  /api/live:
+    get:
+      summary: Health check endpoint
+      description: Used to verify the service is running
+      responses:
+        "200":
+          description: Service is healthy
+
+  /api/v1/upload:
+    post:
+      summary: Upload a video
+      description: Upload a video file and store it in the storage service
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                video:
+                  type: string
+                  format: binary
+                  description: The video file to upload
+      responses:
+        "200":
+          description: Video uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The ID assigned to the uploaded video
+        "500":
+          description: Error occurred while uploading the video
+          content:
+            text/plain:
+              schema:
+                type: string
