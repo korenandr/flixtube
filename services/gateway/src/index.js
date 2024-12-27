@@ -57,7 +57,7 @@ async function startMicroservice(port) {
     app.get("/history", async (req, res) => {
 
         // Retreives the data from the history microservice.
-        const historyResponse = await axios.get("http://history/api/history");
+        const historyResponse = await axios.get("http://history/api/v1/history");
 
         // Renders the history for display in the browser.
         res.render("history", { videos: historyResponse.data.history });

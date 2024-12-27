@@ -4,7 +4,7 @@ info:
   description: For users
   version: "1.0.0"
 paths:
-  /api/history:
+  /api/v1/history:
     get:
       summary: Get history of watching videos
       description: Get history of watching videos
