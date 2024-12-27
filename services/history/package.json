@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node ./src/index.js",
         "start:dev": "nodemon ./src/index.js",
-        "test": "jest",
+        "test:unit": "jest -c jest.config.unit.js",
         "test:watch": "jest --watchAll"
     },
     "keywords": [],
