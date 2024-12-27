@@ -74,7 +74,7 @@ describe("metadata microservice integration tests", () => {
         // Load database fixture into the database.
         await loadDatabaseFixture("videos", testVideos);
         
-        const response = await httpGet("/api/videos");  // Make a request to the videos route.
+        const response = await httpGet("/api/v1/videos");  // Make a request to the videos route.
         expect(response.status).toEqual(200);       // Expect HTTP status code 200 (ok).
 
         const videos = response.data.videos;        // Check the videos retrieved are the ones we put in the database.

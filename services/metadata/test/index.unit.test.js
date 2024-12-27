@@ -87,8 +87,8 @@ describe("metadata microservice unit tests", () => {
 
         expect(mockGetFn.mock.calls.length).toEqual(3);
         expect(mockGetFn.mock.calls[0][0]).toEqual('/api/live');
-        expect(mockGetFn.mock.calls[1][0]).toEqual('/api/videos');
-        expect(mockGetFn.mock.calls[2][0]).toEqual('/api/video');
+        expect(mockGetFn.mock.calls[1][0]).toEqual('/api/v1/videos');
+        expect(mockGetFn.mock.calls[2][0]).toEqual('/api/v1/video');
     });
 
     test("microservice`s handler /api/live returns 200", async () => {
@@ -109,7 +109,7 @@ describe("metadata microservice unit tests", () => {
         expect(mockSendStatusFn.mock.calls[0][0]).toEqual(200);
     });
 
-    test("/api/videos route retreives data via videos collection", async () => {
+    test("/api/v1/videos route retreives data via videos collection", async () => {
 
         await startMicroservice("mongodb://localhost:27017", "metadata-test", "rabbit", 3000);
 
@@ -131,8 +131,8 @@ describe("metadata microservice unit tests", () => {
             };
         };
 
-        const apiVideosRouteHandler = mockGetFn.mock.calls[1][1]; // Extract the /api/videos route handler function.
-        await apiVideosRouteHandler(mockRequest, mockResponse); // Invoke the request handler.
+        const apiV1VideosRouteHandler = mockGetFn.mock.calls[1][1]; // Extract the /api/v1/videos route handler function.
+        await apiV1VideosRouteHandler(mockRequest, mockResponse); // Invoke the request handler.
 
         expect(mockJsonFn.mock.calls.length).toEqual(1); // Expect that the json fn was called.
         expect(mockJsonFn.mock.calls[0][0]).toEqual({
