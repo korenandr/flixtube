@@ -4,7 +4,7 @@ info:
   description: For users
   version: "1.0.0"
 paths:
-  /api/video:
+  /api/v1/video:
     get:
       summary: Get video`s metadata
       description: Get metadata for a given video
@@ -29,7 +29,7 @@ paths:
               schema:
                 type: object
 
-  /api/videos:
+  /api/v1/videos:
     get:
       summary: Get metadata of all videos
       description: Get metadata for all videos

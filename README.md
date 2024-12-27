@@ -8,8 +8,7 @@ If you’re using this demo, please **★Star** this repository to show your int
 
 **FlixTube** is composed of 7 microservices written in nodejs.
 
-[![Architecture of
-microservices](/docs/img/architecture-diagram.png)](/docs/img/architecture-diagram.png)
+[![Architecture of microservices](/docs/img/architecture-diagram.png)](/docs/img/architecture-diagram.png)
 
 
 | Service                                              | Description                                                                                         |
