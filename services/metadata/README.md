@@ -4,7 +4,7 @@ This service responsible for saving and retrieving information about saved video
 
 ## Run tests options
 
-There is two different types os tests you can launch:
+There are two different types of tests you can run locally (it`s also used in CI pipeline):
 
 Unit tests:
 
