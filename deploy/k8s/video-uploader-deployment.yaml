@@ -15,7 +15,7 @@ spec:
     spec:
       containers: 
       - name: video-uploader
-        image: crazydanila/video-uploader:5686ea3c005ab3d058e8994e03efdfad3c4fbbe9
+        image: crazydanila/video-uploader:af367a45b984e730bda2fa215f5330f9182e6c30
         imagePullPolicy: IfNotPresent
         ports:
         - name: uploader-port

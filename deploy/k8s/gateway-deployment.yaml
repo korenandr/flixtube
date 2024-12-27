@@ -15,7 +15,7 @@ spec:
     spec:
       containers: 
       - name: gateway
-        image: crazydanila/gateway:5686ea3c005ab3d058e8994e03efdfad3c4fbbe9
+        image: crazydanila/gateway:af367a45b984e730bda2fa215f5330f9182e6c30
         imagePullPolicy: IfNotPresent
         ports:
         - name: gateway-port
