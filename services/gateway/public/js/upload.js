@@ -14,7 +14,7 @@ function uploadFiles(files) {
 //
 function uploadFile(file) {
 
-    const uploadRoute = `/api/upload`;
+    const uploadRoute = `/api/v1/videos/upload`;
     fetch(uploadRoute, {
             body: file,
             method: "POST",

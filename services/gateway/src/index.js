@@ -37,7 +37,7 @@ async function startMicroservice(port) {
 
         const video = {
             metadata: videoResponse.data.video,
-            url: `/api/video?id=${videoId}`,
+            url: `/api/v1/videos/stream?id=${videoId}`,
         };
         
         // Renders the video for display in the browser.
@@ -73,7 +73,7 @@ async function startMicroservice(port) {
     //
     // HTTP GET route that streams video to the user's browser.
     //
-    app.get("/api/video", async (req, res) => {
+    app.get("/api/v1/videos/stream", async (req, res) => {
 
         console.log("Get stream of video with id: ", req.query.id);
 
@@ -89,7 +89,7 @@ async function startMicroservice(port) {
     //
     // HTTP POST route to upload video from the user's browser.
     //
-    app.post("/api/upload", async (req, res) => {
+    app.post("/api/v1/videos/upload", async (req, res) => {
 
         console.log(`Upload ${req.headers["content-type"]} with name ${req.headers["file-name"]}`);
 

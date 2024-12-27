@@ -46,10 +46,10 @@ describe("gateway microservice", () => {
         expect(mockGetFn.mock.calls[2][0]).toEqual('/upload');
         expect(mockGetFn.mock.calls[3][0]).toEqual('/history');
         expect(mockGetFn.mock.calls[4][0]).toEqual('/api/live');
-        expect(mockGetFn.mock.calls[5][0]).toEqual('/api/video');
+        expect(mockGetFn.mock.calls[5][0]).toEqual('/api/v1/videos/stream');
 
         expect(mockPostFn.mock.calls.length).toEqual(1);
-        expect(mockPostFn.mock.calls[0][0]).toEqual('/api/upload');
+        expect(mockPostFn.mock.calls[0][0]).toEqual('/api/v1/videos/upload');
     });
 
     test("microservice`s handler /api/live returns 200", async () => {
