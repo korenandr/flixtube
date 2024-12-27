@@ -57,8 +57,8 @@ function startServer() {
 //
 async function loadFixture (databaseName, fixtureName) {
     const fixtures = new Fixtures({
-        dir: path.join(fixturesDirectory, fixtureName),
-        mute: false,
+        dir: path.join(fixturesDirectory, databaseName, fixtureName),
+        mute: false,    // do not mute the log output
     });
 
     await fixtures.connect(databaseHost + "/" + databaseName);
@@ -72,8 +72,8 @@ async function loadFixture (databaseName, fixtureName) {
 //
 async function unloadFixture(databaseName, fixtureName) {
     const fixtures = new Fixtures({
-        dir: path.join(fixturesDirectory, fixtureName),
-        mute: false,
+        dir: path.join(fixturesDirectory, databaseName, fixtureName),
+        mute: false,    
     });
 
     await fixtures.connect(databaseHost + "/" + databaseName);
@@ -226,7 +226,7 @@ async function main() {
     
     app.get("/get-fixtures", (req, res) => {
 
-        globby([fixturesDirectory + "/**/*.js", fixturesDirectory + "/**/*.json"])
+        globby([fixturesDirectory + "/**/**/*.js", fixturesDirectory + "/**/**/*.json"])
             .then(fixtureFilePaths => {
 
                 const fixtureNames = fixtureFilePaths.map(fixtureFilePath => path.basename(path.dirname(fixtureFilePath)));
