@@ -6,10 +6,10 @@ const axios = require("axios");
 //
 // Broadcasts the "viewed" message to other microservices.
 //
-function broadcastViewedMessage(messageChannel, videoPath) {
+function broadcastViewedMessage(messageChannel, videoId) {
     console.log(`Publishing message on "viewed" exchange.`);
         
-    const msg = { videoPath: videoPath };
+    const msg = { videoId: videoId, watched: new Date().toISOString() };
     const jsonMsg = JSON.stringify(msg);
     messageChannel.publish("viewed", "", Buffer.from(jsonMsg)); // Publishes message to the "viewed" exchange.
 }

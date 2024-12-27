@@ -44,4 +44,32 @@ describe("flixtube front end", () => {
         const videoSource = page.locator("video > source");
         await expect(videoSource).toHaveAttribute("src", "/api/v1/videos/stream?id=5ea234a1c34230004592eb32");
     });
+
+    test("can view video history", async ({ page }) => {
+        // Load fixtures
+        await loadFixture("history", "two-videos");
+
+        // Visit history page
+        await page.goto(`/history`);
+
+        // Get all rows (excluding header)
+        const rows = await page.locator('#history-list table tr:not(:first-child)');
+
+        // Assert number of history entries
+        await expect(rows).toHaveCount(2);
+
+        // Check content of first row
+        const firstVideoId = await rows.nth(0).locator('td').first();
+        await expect(firstVideoId).toHaveText("5ea234a1c34230004592eb32");
+
+        const watchedDate = await rows.nth(0).locator('td').last();
+        await expect(watchedDate).toHaveText("2024-12-26T12:00:00Z");
+
+        // Check content of second row
+        const secondVideoId = await rows.nth(1).locator('td').first();
+        await expect(secondVideoId).toHaveText("5ea234a5c34230004592eb33");
+
+        const secondWatchedDate = await rows.nth(1).locator('td').last();
+        await expect(secondWatchedDate).toHaveText("2024-12-27T12:00:00Z");
+    });
 });

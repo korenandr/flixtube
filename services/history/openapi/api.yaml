@@ -33,3 +33,9 @@ paths:
                     type: array
                     items:
                       type: object
+                      properties:
+                        videoId:
+                          type: string
+                        watched:
+                          type: string
+                          format: date-time
