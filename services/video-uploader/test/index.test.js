@@ -59,7 +59,7 @@ describe("video-uploader microservice", () => {
         expect(mockGetFn.mock.calls[0][0]).toEqual('/api/live');
 
         expect(mockPostFn.mock.calls.length).toEqual(1);
-        expect(mockPostFn.mock.calls[0][0]).toEqual("/api/upload");
+        expect(mockPostFn.mock.calls[0][0]).toEqual("/api/v1/upload");
     });
 
     // ... more tests go here ...

@@ -36,7 +36,7 @@ async function startMicroservice(rabbitHost, port) {
     //
     // Route for uploading videos.
     //
-    app.post("/api/upload", async (req, res) => {
+    app.post("/api/v1/upload", async (req, res) => {
 
         const fileName = req.headers["file-name"];
         const videoId = new mongodb.ObjectId(); // Creates a new unique ID for the video.
