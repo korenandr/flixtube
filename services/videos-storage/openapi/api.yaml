@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: Videos Storage Service API
+  description: Service for storing and retrieving videos using AWS S3
+  version: "1.0.0"
+paths:
+  /api/live:
+    get:
+      summary: Health check endpoint
+      description: Used to verify the service is running
+      responses:
+        "200":
+          description: Service is healthy
+
+  /api/v1/video:
+    get:
+      summary: Stream a video
+      description: Streams a video file from storage by ID
+      parameters:
+        - name: id
+          in: query
+          description: ID of the video to stream
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Video file stream
+          content:
+            video/mp4:
+              schema:
+                type: string
+                format: binary
+
+  /api/v1/upload:
+    post:
+      summary: Upload a video
+      description: Upload a video file to AWS S3 storage
+      parameters:
+        - name: id
+          in: header
+          description: ID to assign to the uploaded video
+          required: true
+          schema:
+            type: string
+        - name: content-type
+          in: header
+          description: Content type of the video file
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          '*/*':
+            schema:
+              type: string
+              format: binary
+              description: The video file to upload
+      responses:
+        "200":
+          description: Video uploaded successfully
+        "500":
+          description: Error occurred while uploading the video
+          content:
+            text/plain:
+              schema:
+                type: string
