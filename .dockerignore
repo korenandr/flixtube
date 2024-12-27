@@ -5,7 +5,7 @@ docs
 node_modules
 playwright-report
 test-results
-tests
+e2e-tests
 LICENSE
 playwright.config.ts
 README.md
