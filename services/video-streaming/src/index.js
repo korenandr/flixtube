@@ -42,7 +42,7 @@ async function startMicroservice(rabbitHost, port) {
             const videoId = req.query.id;
             const response = await axios({ // Forwards the request to the video-storage microservice.
                 method: "GET",
-                url: `http://videos-storage/api/video?id=${videoId}`, 
+                url: `http://videos-storage/v1/api/video?id=${videoId}`,
                 data: req, 
                 responseType: "stream",
             });

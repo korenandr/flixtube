@@ -27,7 +27,7 @@ function startMicroservice(bucketName, accessKeyId, secretAccessKey, regionName,
     });
 
     // Define a route to stream the video
-    app.get('/api/video', (req, res) => {
+    app.get('/api/v1/video', (req, res) => {
         const videoId = req.query.id;
         console.log(`Streaming video with id ${videoId}.`);
 
@@ -44,7 +44,7 @@ function startMicroservice(bucketName, accessKeyId, secretAccessKey, regionName,
     //
     // HTTP POST route to upload a video to AWS storage.
     //
-    app.post('/api/upload', (req, res) => {
+    app.post('/api/v1/upload', (req, res) => {
 
         const s3Params = {
             Bucket: bucketName,

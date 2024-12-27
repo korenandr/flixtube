@@ -45,7 +45,7 @@ async function startMicroservice(rabbitHost, port) {
     
         const response = await axios({ // Forwards the request to the videos-storage microservice.
             method: "POST",
-            url: "http://videos-storage/api/upload", 
+            url: "http://videos-storage/api/v1/upload",
             data: req, 
             responseType: "stream",
             headers: {
