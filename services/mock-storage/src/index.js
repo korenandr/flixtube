@@ -22,7 +22,7 @@ function startMicroservice(storagePath, port) {
     //
     // HTTP GET route that streams a video from storage.
     //
-    app.get("/api/video", (req, res) => {
+    app.get("/api/v1/video", (req, res) => {
         try {
             const videoId = req.query.id;
             const localFilePath = path.join(storagePath, videoId);
@@ -40,7 +40,7 @@ function startMicroservice(storagePath, port) {
     //
     // HTTP POST route to upload a video to storage.
     //
-    app.post("/api/upload", (req, res) => {
+    app.post("/api/v1/upload", (req, res) => {
         try {
             const videoId = req.headers.id;
             const localFilePath = path.join(storagePath, videoId);

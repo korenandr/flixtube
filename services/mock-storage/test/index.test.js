@@ -44,10 +44,10 @@ describe("mock-storage microservice", () => {
 
         expect(mockGetFn).toHaveBeenCalledTimes(2);
         expect(mockGetFn.mock.calls[0][0]).toEqual('/api/live');
-        expect(mockGetFn.mock.calls[1][0]).toEqual('/api/video');
+        expect(mockGetFn.mock.calls[1][0]).toEqual('/api/v1/video');
 
         expect(mockPostFn).toHaveBeenCalledTimes(1);
-        expect(mockPostFn.mock.calls[0][0]).toEqual("/api/upload");
+        expect(mockPostFn.mock.calls[0][0]).toEqual("/api/v1/upload");
     });
 
     test("microservice`s handler /api/live returns 200", async () => {
