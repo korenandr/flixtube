@@ -29,5 +29,19 @@ describe("flixtube front end", () => {
         await expect(secondVideo).toHaveAttribute("href", "/video?id=5ea234a5c34230004592eb33"); // Make sure link is correct.
     });
 
-    // Other tests go here.
+    test("can play a video", async ({ page }) => {
+        // Load fixture with video metadata
+        await loadFixture("metadata", "two-videos");
+
+        // Navigate to first video
+        await page.goto(`/video?id=5ea234a1c34230004592eb32`);
+
+        // Check that video player is present
+        const videoPlayer = page.locator("video");
+        await expect(videoPlayer).toBeVisible();
+
+        // Check video source is correct
+        const videoSource = page.locator("video > source");
+        await expect(videoSource).toHaveAttribute("src", "/api/v1/videos/stream?id=5ea234a1c34230004592eb32");
+    });
 });
