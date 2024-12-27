@@ -1,0 +1,67 @@
+openapi: 3.0.3
+info:
+  title: Mock Storage service API
+  description: Service for storing and retrieving video files
+  version: "1.0.0"
+paths:
+  /api/live:
+    get:
+      summary: Health check endpoint
+      description: Used to verify the service is running
+      responses:
+        "200":
+          description: Service is healthy
+          
+  /api/v1/video:
+    get:
+      summary: Stream a video file
+      description: Streams a video file from storage by ID
+      parameters:
+        - name: id
+          in: query
+          description: ID of the video to stream
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Video file stream
+          content:
+            video/*:
+              schema:
+                type: string
+                format: binary
+        "500":
+          description: Error occurred while fetching the video
+          content:
+            text/plain:
+              schema:
+                type: string
+                
+  /api/v1/upload:
+    post:
+      summary: Upload a video file
+      description: Upload a video file to storage
+      parameters:
+        - name: id
+          in: header
+          description: ID to store the video under
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          video/*:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "200":
+          description: Video uploaded successfully
+        "500":
+          description: Error occurred while uploading the video
+          content:
+            text/plain:
+              schema:
+                type: string
