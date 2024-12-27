@@ -86,7 +86,7 @@ describe("history microservice", () => {
 
         expect(mockGetFn.mock.calls.length).toEqual(2);
         expect(mockGetFn.mock.calls[0][0]).toEqual('/api/live');
-        expect(mockGetFn.mock.calls[1][0]).toEqual('/api/history');
+        expect(mockGetFn.mock.calls[1][0]).toEqual('/api/v1/history');
     });
 
     test("microservice`s handler /api/live returns 200", async () => {
@@ -107,11 +107,11 @@ describe("history microservice", () => {
         expect(mockSendStatusFn.mock.calls[0][0]).toEqual(200);
     });
 
-    test("/api/history route is handled", async () => {
+    test("/api/v1/history route is handled", async () => {
         
         await startMicroservice("mongodb://localhost:27017", "metadata-test", "rabbit", 3000);
 
         const apiHistoryRoute = mockGetFn.mock.calls[1][0];
-        expect(apiHistoryRoute).toEqual("/api/history");
+        expect(apiHistoryRoute).toEqual("/api/v1/history");
     });
 });
