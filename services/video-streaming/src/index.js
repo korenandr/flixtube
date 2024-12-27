@@ -35,7 +35,7 @@ async function startMicroservice(rabbitHost, port) {
         res.sendStatus(200);
     });
         
-    app.get("/api/video", async (req, res) => { // Route for streaming video.
+    app.get("/api/v1/video", async (req, res) => { // Route for streaming video.
         try {
             console.log(`Streaming video with id: ${req.query.id}`);
 

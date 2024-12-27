@@ -56,7 +56,7 @@ describe("video-streaming microservice", () => {
 
         expect(mockGetFn.mock.calls.length).toEqual(2);
         expect(mockGetFn.mock.calls[0][0]).toEqual('/api/live');
-        expect(mockGetFn.mock.calls[1][0]).toEqual('/api/video');
+        expect(mockGetFn.mock.calls[1][0]).toEqual('/api/v1/video');
     });
 
     // ... more tests go here ...

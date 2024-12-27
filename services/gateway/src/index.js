@@ -79,7 +79,7 @@ async function startMicroservice(port) {
 
         const response = await axios({ // Forwards the request to the video-streaming microservice.
             method: "GET",
-            url: `http://video-streaming/api/video?id=${req.query.id}`, 
+            url: `http://video-streaming/api/v1/video?id=${req.query.id}`,
             data: req, 
             responseType: "stream",
         });
