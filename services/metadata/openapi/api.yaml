@@ -21,7 +21,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VideoMetadata'
+                type: object
+                properties:
+                  video:
+                    $ref: '#/components/schemas/VideoMetadata'
         "404":
           description: Video not found
           content:

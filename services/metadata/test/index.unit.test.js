@@ -1,4 +1,3 @@
-
 describe("metadata microservice unit tests", () => {
 
     //
@@ -37,11 +36,16 @@ describe("metadata microservice unit tests", () => {
     };
     
     jest.doMock("mongodb", () => { // Mock the Mongodb module.
-        return { // Mock Mongodb module.
-            MongoClient: { // Mock MongoClient.
-                connect: async () => { // Mock connect function.
+        return {
+            MongoClient: {
+                connect: async () => {
                     return mockMongoClient;
                 }
+            },
+            ObjectId: function(id) {
+                return {
+                    toString: () => id
+                };
             }
         };
     });
@@ -138,6 +142,48 @@ describe("metadata microservice unit tests", () => {
         expect(mockJsonFn.mock.calls[0][0]).toEqual({
             videos: [ mockRecord1, mockRecord2 ], // Expect that the mock records were retrieved via the mock database function.
         });
+    });
+
+    test("/api/v1/video route retrieves video by id", async () => {
+        await startMicroservice("mongodb://localhost:27017", "metadata-test", "rabbit", 3000);
+
+        const mockVideoId = "507f1f77bcf86cd799439011";
+        const mockRequest = {
+            query: {
+                id: mockVideoId
+            }
+        };
+        const mockJsonFn = jest.fn();
+        const mockSendStatusFn = jest.fn();
+        const mockResponse = {
+            json: mockJsonFn,
+            sendStatus: mockSendStatusFn
+        };
+
+        const mockVideo = {
+            _id: mockVideoId,
+            name: "Test Video"
+        };
+
+        // Mock findOne to return a video when called with the expected ID
+        mockVideosCollection.findOne = jest.fn().mockImplementation(async (query) => {
+            if (query._id.toString() === mockVideoId) {
+                return mockVideo;
+            }
+            return null;
+        });
+
+        const apiV1VideoRouteHandler = mockGetFn.mock.calls[2][1]; // Extract the /api/v1/video route handler
+
+        // Test successful video retrieval
+        await apiV1VideoRouteHandler(mockRequest, mockResponse);
+        expect(mockJsonFn).toHaveBeenCalledWith({ video: mockVideo });
+        expect(mockSendStatusFn).not.toHaveBeenCalled();
+
+        // Test video not found
+        mockVideosCollection.findOne.mockResolvedValueOnce(null);
+        await apiV1VideoRouteHandler(mockRequest, mockResponse);
+        expect(mockSendStatusFn).toHaveBeenCalledWith(404);
     });
 
     // ... more tests go here ...
